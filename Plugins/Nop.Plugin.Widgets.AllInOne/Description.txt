@@ -1,0 +1,8 @@
+﻿Group: Widgets
+FriendlyName: All In One
+SystemName: Widgets.AllInOne
+Version: 1.00
+SupportedVersions:3.80
+Author: hezy ziv
+DisplayOrder: 1
+FileName: Nop.Plugin.Widgets.AllInOne.dll

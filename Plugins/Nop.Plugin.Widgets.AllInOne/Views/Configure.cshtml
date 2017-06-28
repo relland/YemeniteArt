@@ -1,0 +1,40 @@
+﻿@using Nop.Web.Framework;
+@using Nop.Web.Framework.UI;
+@Html.Action("StoreScopeConfiguration", "Setting", new { area = "Admin" })
+
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            All In One
+        </div>
+        <div class="panel-body">
+            <a href="@Url.RouteUrl("Plugin.Widgets.AllInOne.List")">Start using All In One</a> (There is a link at the Plugin menu)
+            All In One is a simple widget that covers most widgets in one plugin.
+            <br />
+            Create Html, text or javascript and place it in any widget zone.
+            <br />
+            All in one allows adding css and javascript files to support the Html and Scripts.
+            <br />
+            <br />
+            <b>For Example: To place a flash banner</b>
+            <br />
+            <ul>
+                <li>
+                    Create a new All In One record, name it Flash Banner Home
+                </li>
+                <li>
+                    Add the html code for that banner
+                </li>
+                <li>Choose a widget zone</li>
+                <li>
+                    Upload the Javascript files to support Flash to the plugin content folder. (AC_RunActiveContent.js , AC_ActiveX.js)
+                </li>
+                <li>
+                    Add the file names to the All In One record
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+

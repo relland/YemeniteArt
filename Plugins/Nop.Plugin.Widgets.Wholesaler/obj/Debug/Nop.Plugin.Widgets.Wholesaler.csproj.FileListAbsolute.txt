@@ -1,0 +1,15 @@
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\Content\styles.css
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\Desctiption.txt
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\Views\AccountNavigation.cshtml
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\app.config
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\web.config
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\Views\Configure.cshtml
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\Views\Products.cshtml
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\Views\ProductFiltering.cshtml
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\Views\CustomerNavigation.cshtml
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\Nop.Plugin.Widgets.Wholesaler.dll.config
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\Nop.Plugin.Widgets.Wholesaler.dll
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Widgets.Wholesaler\Nop.Plugin.Widgets.Wholesaler.pdb
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Widgets.Wholesaler\obj\Debug\Nop.Plugin.Widgets.Wholesaler.csprojResolveAssemblyReference.cache
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Widgets.Wholesaler\obj\Debug\Nop.Plugin.Widgets.Wholesaler.dll
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Widgets.Wholesaler\obj\Debug\Nop.Plugin.Widgets.Wholesaler.pdb

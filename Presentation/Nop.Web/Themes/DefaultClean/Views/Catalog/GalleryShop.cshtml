@@ -1,0 +1,95 @@
+﻿@model List<CategoryModel>
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+
+    ////title
+    //Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    ////meta
+    //Html.AddMetaDescriptionParts(Model.MetaDescription);
+    //Html.AddMetaKeywordParts(Model.MetaKeywords);
+    //page class
+    Html.AppendPageCssClassParts("html-category-page");
+
+    //var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
+    //if (canonicalUrlsEnabled)
+    //{
+    //    var categoryUrl = Url.RouteUrl("Category", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+    //    Html.AddCanonicalUrlParts(categoryUrl);
+    //}
+
+    //var breadcrumbDelimiter = EngineContext.Current.Resolve<CommonSettings>().BreadcrumbDelimiter;
+}
+@using Nop.Core.Domain.Common;
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@*category breadcrumb*@
+@*@section Breadcrumb
+{
+    @if (Model.DisplayCategoryBreadcrumb)
+    {
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a href="@Url.RouteUrl("HomePage")" title="@T("Categories.Breadcrumb.Top")">@T("Categories.Breadcrumb.Top")</a>
+                    <span class="delimiter">@breadcrumbDelimiter</span>
+                </li>
+                @foreach (var cat in Model.CategoryBreadcrumb)
+                {
+                    var isLastCategory = cat.Id == Model.Id;
+                    <li>
+                        @if (isLastCategory)
+                        {
+                            <strong class="current-item">@cat.Name</strong>
+                        }
+                        else
+                        {
+                            <a href="@Url.RouteUrl("Category", new { SeName = cat.SeName })" title="@cat.Name">@cat.Name</a>
+                            <span class="delimiter">@breadcrumbDelimiter</span>
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+        @Html.Widget("categorydetails_after_breadcrumb", Model.Id)
+    }
+}*@
+<div class="page category-page gallery-shop">    
+    <div class="page-body">
+        @foreach (var category in Model)
+        {
+            <div class="page-title">
+                    <h1>@category.Name</h1>
+                </div>
+            @*description*@
+            @*@if (!String.IsNullOrWhiteSpace(category.Description))
+            {
+                <div class="category-description">
+                    @Html.Raw(category.Description)
+                </div>
+            }*@
+            @*subcategories*@
+            if (category.SubCategories.Count > 0)
+            {
+                <div class="category-grid sub-category-grid">
+                    <div class="item-grid">
+                        @foreach (var item in category.SubCategories)
+                        {
+                            <div class="item-box">
+                                <div class="sub-category-item">
+                                    <div class="picture">
+                                        <a href="@Url.RouteUrl("Category", new { SeName = item.SeName })" title="@item.PictureModel.Title">
+                                            <img alt="@item.PictureModel.AlternateText" src="@item.PictureModel.ImageUrl" title="@item.PictureModel.Title" />
+                                            <span class="title">@item.Name</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }      
+        }
+    </div>
+</div>
+

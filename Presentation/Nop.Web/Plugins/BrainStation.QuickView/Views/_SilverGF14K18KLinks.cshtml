@@ -1,0 +1,93 @@
+﻿@model ProductDetailsModel
+@using Nop.Web.Models.Catalog;
+@if (Model.DisplaySilverGF14K18K)
+{
+<div class="silver-gf-14k-18k">
+    <ul class="option-list">
+        @if (Model.SilverGF14K18KSeNames[0] == null)
+        {
+            <li>
+                <input class="radio-button" type="radio" disabled="disabled" name="silver-gf-14k-18k" value="@T("ya.silver")" />
+                <label for="link-silver">@T("ya.silver")</label>
+            </li>
+        }
+        else if (Model.SilverGF14K18KSeNames[0] == Model.SeName)
+        {
+            <li>
+                <input class="radio-button" type="radio" checked="checked" name="silver-gf-14k-18k" value="@T("ya.silver")" />
+                <label for="link-silver">@T("ya.silver")</label>
+            </li>
+        }
+        else
+        {
+            <li onclick="location.href = '@Url.RouteUrl("Product", new { SeName = Model.SilverGF14K18KSeNames[0] })';">
+                <input class="radio-button" type="radio" name="silver-gf-14k-18k" value="@T("ya.silver")" />
+                <label for="link-silver">@T("ya.silver")</label>
+            </li>
+        }
+        @if (Model.SilverGF14K18KSeNames[1] == null)
+        {
+            <li>
+                <input class="radio-button" type="radio" disabled="disabled" name="silver-gf-14k-18k" value="@T("ya.goldPlated")" />
+                <label for="link-gf">@T("ya.goldPlated")</label>
+            </li>
+        }
+        else if (Model.SilverGF14K18KSeNames[1] == Model.SeName)
+        {
+            <li>
+                <input class="radio-button" type="radio" checked="checked" name="silver-gf-14k-18k" value="@T("ya.goldPlated")" />
+                <label for="link-gf">@T("ya.goldPlated")</label>
+            </li>
+        }
+        else
+        {
+            <li onclick="location.href = '@Url.RouteUrl("Product", new { SeName = Model.SilverGF14K18KSeNames[1] })';">
+                <input class="radio-button" type="radio" name="silver-gf-14k-18k" value="@T("ya.goldPlated")" />
+                <label for="link-gf">@T("ya.goldPlated")</label>
+            </li>
+        }
+        @if (Model.SilverGF14K18KSeNames[2] == null)
+        {
+            <li>
+                <input class="radio-button" type="radio" disabled="disabled" name="silver-gf-14k-18k" value="@T("ya.14k")" />
+                <label for="link-14k">@T("ya.14k")</label>
+            </li>
+        }
+        else if (Model.SilverGF14K18KSeNames[2] == Model.SeName)
+        {
+            <li>
+                <input class="radio-button" type="radio" checked="checked" name="silver-gf-14k-18k" value="@T("ya.14k")" />
+                <label for="link-14k">@T("ya.14k")</label>
+            </li>
+        }
+        else
+        {
+            <li onclick="location.href = '@Url.RouteUrl("Product", new { SeName = Model.SilverGF14K18KSeNames[2] })';">
+                <input class="radio-button" type="radio" name="silver-gf-14k-18k" value="@T("ya.14k")" />
+                <label for="link-14k">@T("ya.14k")</label>
+            </li>
+        }
+        @if (Model.SilverGF14K18KSeNames[3] == null)
+        {
+            <li>
+                <input class="radio-button" type="radio" disabled="disabled" name="silver-gf-14k-18k" value="@T("ya.18k")" />
+                <label for="link-18k">@T("ya.18k")</label>
+            </li>
+        }
+        else if (Model.SilverGF14K18KSeNames[3] == Model.SeName)
+        {
+            <li>
+                <input class="radio-button" type="radio" checked="checked" name="silver-gf-14k-18k" value="@T("ya.18k")" />
+                <label for="link-18k">@T("ya.18k")</label>
+            </li>
+        }
+        else
+        {
+            <li onclick="location.href = '@Url.RouteUrl("Product", new { SeName = Model.SilverGF14K18KSeNames[3] })';">
+                <input class="radio-button" type="radio" name="silver-gf-14k-18k" value="@T("ya.18k")" />
+                <label for="link-18k">@T("ya.18k")</label>
+            </li>
+        }
+</ul>
+</div>
+}

@@ -1,0 +1,167 @@
+﻿@model AllInOneModel
+@using Nop.Plugin.Widgets.AllInOne;
+@using Nop.Plugin.Widgets.AllInOne.Models;
+@using Nop.Services.Events;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.Events;
+
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+
+<script>
+    $(document).ready(function() {
+        bindBootstrapTabSelectEvent('spot-group-edit');
+    });
+</script>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div id="affiliate-edit" class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                @Html.RenderBootstrapTabHeader("tab-info", @T("Plugins.Widgets.AllInOne.Info"), true)
+                @Html.RenderBootstrapTabHeader("tab-css", @T("Plugins.Widgets.AllInOne.CssScripts"))
+            </ul>
+            <div class="tab-content">
+                @Html.RenderBootstrapTabContent("tab-info", @TabInfo(), true)
+                @Html.RenderBootstrapTabContent("tab-css", @TabCssScripts())
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@{
+    //custom tabs
+    var eventMessage = new AdminTabStripCreated(this.Html, "allinone-edit");
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(eventMessage);
+    foreach (var eventBlock in eventMessage.BlocksToRender)
+    {
+        @eventBlock
+    }
+}
+
+@*save selected tab index*@
+<input type="hidden" id="selected-tab-index" name="selected-tab-index" value="@(Html.GetSelectedTabName())">
+
+
+@helper TabInfo()
+    {
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.NopLabelFor(model => model.Name)
+                </div>
+                <div class="col-md-6">
+                    @Html.NopEditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.NopLabelFor(model => model.WidgetZone)
+                </div>
+                <div class="col-md-6">
+                    @Html.NopEditorFor(model => model.WidgetZone)
+                    @Html.ValidationMessageFor(model => model.WidgetZone)
+                    &nbsp;&nbsp;<a href="http://www.nopcommerce.com/boards/t/25610/widgets-and-widgets-zones-in-310.aspx" target="_blank">Widget Zones List</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.NopLabelFor(model => model.HtmlCode)
+                </div>
+                <div class="col-md-6">
+                    <div style="padding:5px 0 3px 0;"><b>For HTML editor click: Tools - > Source Code</b></div>
+                    @Html.EditorFor(x => x.HtmlCode, "RichEditor")
+                    @Html.ValidationMessageFor(model => model.HtmlCode)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.NopLabelFor(model => model.HtmlCodeExtra)
+                </div>
+                <div class="col-md-6">
+                    <div style="padding:5px 0 3px 0;"><b>Additional code for the HTML code, used for tags that not supported by TinyMCE editor</b></div>
+                    @Html.TextAreaFor(model => model.HtmlCodeExtra, new { style = "Width: 250px; Height: 150px;" })
+                    @Html.ValidationMessageFor(model => model.HtmlCodeExtra)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.NopLabelFor(model => model.Published)
+                </div>
+                <div class="col-md-6">
+                    @Html.NopEditorFor(model => model.Published)
+                    @Html.ValidationMessageFor(model => model.Published)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.NopLabelFor(model => model.DisplayOrder)
+                </div>
+                <div class="col-md-6">
+                    @Html.NopEditorFor(model => model.DisplayOrder)
+                    @Html.ValidationMessageFor(model => model.DisplayOrder)
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@helper TabCssScripts()
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.NopLabelFor(model => model.jsFileList)
+                </div>
+                <div class="col-md-6">
+                    @Html.NopEditorFor(model => model.jsFileList)
+                    @Html.ValidationMessageFor(model => model.jsFileList)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.NopLabelFor(model => model.WidgetZone)
+                </div>
+                <div class="col-md-6">
+                    @Html.NopEditorFor(model => model.WidgetZone)
+                    @Html.ValidationMessageFor(model => model.WidgetZone)
+                    &nbsp;&nbsp;<a href="http://www.nopcommerce.com/boards/t/25610/widgets-and-widgets-zones-in-310.aspx" target="_blank">Widget Zones List</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-9">
+                    <ol>
+                        <li><b>Upload files to Plugins\Widgets.AllInOne\Content\</b></li>
+                        <li>Enter the file names separated by commas</li>
+                        <li><b>JavaScript <span style="color:red;">WITH</span> extention:</b> example.js,example1.js,example2.js</li>
+                        <li><b>CSS <span style="color:red;">WITHOUT</span>  extention:</b> CssExample,CssExample1,CssExample2</li>
+                        <li>
+                            RTL support for css files:
+                            <ul>
+                                <li>Upload both file - (style.css and style.rtl.css)</li>
+                                <li>make sure the RTL file has the same name with a .rtl befor file extension (style.rtl.css)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.NopLabelFor(model => model.cssFileList)
+                </div>
+                <div class="col-md-6">
+                    @Html.NopEditorFor(x => x.cssFileList)
+                    @Html.ValidationMessageFor(model => model.cssFileList)  
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

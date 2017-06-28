@@ -1,0 +1,11 @@
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PayPalStandard\Views\PaymentPayPalStandard\Configure.cshtml
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PayPalStandard\Views\PaymentPayPalStandard\PaymentInfo.cshtml
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PayPalStandard\web.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PayPalStandard\Description.txt
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PayPalStandard\logo.jpg
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PayPalStandard\Nop.Plugin.Payments.PayPalStandard.dll.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PayPalStandard\Nop.Plugin.Payments.PayPalStandard.dll
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PayPalStandard\Nop.Plugin.Payments.PayPalStandard.pdb
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Payments.PayPalStandard\obj\Debug\Nop.Plugin.Payments.PayPalStandard.csproj.App.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Payments.PayPalStandard\obj\Debug\Nop.Plugin.Payments.PayPalStandard.dll
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Payments.PayPalStandard\obj\Debug\Nop.Plugin.Payments.PayPalStandard.pdb

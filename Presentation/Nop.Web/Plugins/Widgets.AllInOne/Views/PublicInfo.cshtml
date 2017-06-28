@@ -1,0 +1,36 @@
+﻿@model PublicInfoModel
+@using Nop.Plugin.Widgets.AllInOne.Models;
+@using System
+@using Nop.Web.Framework.UI
+@using Nop.Core.Domain.Common;
+@using Nop.Core.Domain.Seo;
+@using Nop.Core;
+@using Nop.Core.Infrastructure;
+
+@{
+    if(Model.CssFiles.Count > 0)
+    {
+        foreach(var fileName in Model.CssFiles)
+        { 
+                Html.AppendCssFileParts("~/Plugins/Widgets.AllInOne/Content/" + fileName );
+        }
+    }
+    
+    if(Model.JFiles.Count > 0)
+    { 
+        foreach(var fileName in Model.JFiles )
+        {
+            Html.AppendScriptParts("~/Plugins/Widgets.AllInOne/Content/" + fileName );
+        }
+    }
+    
+    
+}
+
+@if (Model.HtmlCodes.Count > 0)
+{
+    foreach (var item in Model.HtmlCodes)
+    { 
+        @Html.Raw(item)
+    }   
+}

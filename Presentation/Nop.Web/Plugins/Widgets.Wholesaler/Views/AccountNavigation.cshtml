@@ -1,0 +1,16 @@
+﻿@model AccountNavigationModel 
+@using Nop.Plugin.Widgets.Wholesaler.Models;
+@using Nop.Web.Framework.UI
+@*@using Nop.Web.Framework;
+        @using Nop.Core.Domain.Seo;
+        @using Nop.Core.Infrastructure;
+        @using Nop.Web.Models.Catalog;
+    @using Nop.Web.Framework.UI
+    @using Nop.Web.Framework.ViewEngines.Razor;*@
+
+@if (Model.IsWholesaler)
+{
+    <li class="wholesaler-link">
+        <a href="@Url.RouteUrl("Wholesaler.Products")" class="inactive">@T("Wholesaler.viewproducts")</a>
+    </li>
+}

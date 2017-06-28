@@ -1,0 +1,55 @@
+﻿
+.side-2 .panel-search input[type="text"], 
+.side-2 .panel-search input[type="password"], 
+.side-2 .panel-search textarea, 
+.side-2 .panel-search select {
+    width:100%;
+}
+th[data-field='Name'], th[data-field='Sku'], th[data-field='RetailPrice'], th[data-field='WholesalerPrice'] {
+    cursor: pointer;
+}
+.k-header, .k-grid-header-wrap, .k-grid .k-grouping-header, .k-grid-header, .k-pager-wrap, .k-pager-wrap .k-textbox, .k-pager-wrap .k-link, .k-grouping-header .k-group-indicator,
+.k-block, .k-widget, .k-input, .k-textbox, .k-group, .k-content, .k-header, .k-editable-area, .k-separator, .k-colorpicker .k-i-arrow-s, .k-textbox>input, .k-autocomplete, .k-dropdown-wrap, .k-toolbar, .k-group-footer td, .k-grid-footer, .k-footer-template td, .k-state-default, .k-state-default .k-select, .k-state-disabled, .k-grid-header, .k-grid-header-wrap, .k-grid-header-locked, .k-grid-footer-locked, .k-grid-content-locked, .k-grid td, .k-grid td.k-state-selected, .k-grid-footer-wrap, .k-pager-wrap, .k-pager-wrap .k-link, .k-pager-refresh, .k-grouping-header, .k-grouping-header .k-group-indicator, .k-panelbar>.k-item>.k-link, .k-panel>.k-item>.k-link, .k-panelbar .k-panel, .k-panelbar .k-content, .k-calendar th, .k-slider-track, .k-splitbar, .k-dropzone-active, .k-tiles, .k-toolbar, .k-tooltip, .k-button-group .k-tool, .k-upload-files {
+    border-color: #fff!important;
+}
+.k-grid td {
+    border-width: 0 0 0 3px!important;
+}
+#products-grid {
+    border:none;
+}
+.k-state-selected, .k-state-selected:link, .k-state-selected:visited, .k-list > .k-state-selected, .k-list > .k-state-highlight, .k-panel > .k-state-selected, .k-ghost-splitbar-vertical, .k-ghost-splitbar-horizontal, .k-draghandle.k-state-selected:hover, .k-scheduler .k-scheduler-toolbar .k-state-selected, .k-scheduler .k-today.k-state-selected, .k-marquee-color,
+.k-state-selected, .k-state-selected:link, .k-state-selected:visited, .k-list>.k-state-selected, .k-list>.k-state-highlight, .k-panel>.k-state-selected, .k-ghost-splitbar-vertical, .k-ghost-splitbar-horizontal, .k-draghandle.k-state-selected:hover, .k-scheduler .k-scheduler-toolbar .k-state-selected, .k-scheduler .k-today.k-state-selected, .k-marquee-color {
+    color: #fff;
+    background-color: #990000!important;
+    border-color: #990000!important;
+}
+.k-pager-numbers .k-state-selected,
+.k-pager-wrap>.k-link,
+.k-dropdown {
+    border-radius: 0!important;
+}
+.go-to-product-by-sku-button,
+.search-products-button {
+	float: left;
+	min-width: 86px;
+	height: 36px;
+	border: none;
+	background-color: #eee;
+	padding: 2px 15px 0;
+	text-align: center;
+    color:#2e2e2e;
+	text-transform: uppercase;
+}
+.go-to-product-by-sku-button:hover,
+.search-products-button:hover {
+	background-color: #605E5E;
+	color: #fff;
+}
+.row.search-products {
+    clear:both;
+}
+.search-products-button {
+    width: 100%;
+    margin-top: 40px;
+}

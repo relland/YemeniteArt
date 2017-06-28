@@ -1,0 +1,63 @@
+﻿@model ProductListModel
+
+@using Nop.Plugin.Widgets.Wholesaler.Models;
+@using Nop.Web.Framework;
+@using System.Web.Mvc;
+
+@{
+    Layout = "";
+}
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    @T("Wholesaler.SearchProductName")
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.NopEditorFor(model => model.SearchProductName)
+                                </div>
+                            </div>
+                            <div class="form-group" @(Model.AvailableCategories.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                <div class="col-md-4">
+                                    @T("Wholesaler.SearchCategory")
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.NopDropDownList("SearchCategoryId", Model.AvailableCategories)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">                            
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    @T("Wholesaler.GoDirectlyToSku")
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-group input-group-short">
+                                        @Html.NopEditorFor(model => model.GoDirectlyToSku)
+                                        <span class="input-group-btn">
+                                            <button type="submit" id="go-to-product-by-sku" name="go-to-product-by-sku" class="button-2 go-to-product-by-sku-button">
+                                                @T("Wholesaler.SearchBySku")
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row search-products">
+                        <button type="button" id="search-products" class="button-2 search-products-button">
+                            <i class="fa fa-search"></i>
+                            @T("Wholesaler.SearchProducts")
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+﻿@model EventModel
+@using Nop.Admin.Models.Events;
+@using System.Globalization;
+@{
+    //page title
+    ViewBag.Title = T("Admin.Customers.Customers.EditCustomerDetails").Text;
+}
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.OpenEventId)
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Active):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => model.Active)
+            @Html.ValidationMessageFor(model => model.Active)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.StartsAt):
+        </td>
+        <td class="adminData">
+            <input id="StartsAt" name="StartsAt" value="@(Model.StartsAt.TimeOfDay)" />
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.EndsAt):
+        </td>
+        <td class="adminData">
+            <input id="EndsAt" name="EndsAt" value="@(Model.EndsAt.TimeOfDay)" />
+        </td>
+    </tr>
+    @if (Model.CustomersList.Count > 0)
+    {
+     <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.CustomerId):
+        </td>
+        <td class="adminData">
+            @Html.DropDownListFor(model => model.CustomerId, Model.CustomersList)
+        </td>
+    </tr>
+    }
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.ContactEmail):
+        </td>
+        <td class="adminData">
+            @Model.ContactEmail
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.ContactPhoneNumbet):
+        </td>
+        <td class="adminData">
+            @Model.ContactPhoneNumbet
+        </td>
+    </tr>
+
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.AdminComment):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => model.AdminComment)
+            @Html.ValidationMessageFor(model => model.AdminComment)
+        </td>
+    </tr>
+    @if (Model.Id != 0)
+    {
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.CustomerComment):
+            </td>
+            <td class="adminData">
+                @Model.CustomerComment
+            </td>
+        </tr>
+    }
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Language):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => model.Language)
+            @Html.ValidationMessageFor(model => model.Language)
+        </td>
+    </tr>
+    @if (Model.Id != 0)
+    {
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.CreatedOn):
+            </td>
+            <td class="adminData">
+                @Model.CreatedOn
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.UpdatedOn):
+            </td>
+            <td class="adminData">
+                @Model.UpdatedOn
+            </td>
+        </tr>
+    }
+    
+    </table>
+<script>
+    $(document).ready(function() {
+        // create TimePicker from input HTML element
+        $("#StartsAt, #EndsAt").kendoTimePicker();
+    });
+</script>

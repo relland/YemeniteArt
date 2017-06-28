@@ -1,0 +1,2 @@
+DataProvider: sqlserver
+DataConnectionString: Data Source=ARIEL\SQLEXPRESS;Initial Catalog=yanop38b;Integrated Security=True;Persist Security Info=False

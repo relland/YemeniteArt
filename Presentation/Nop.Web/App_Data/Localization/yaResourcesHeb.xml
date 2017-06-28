@@ -1,0 +1,14 @@
+﻿<Language Name="עברית" IsDefault="false" IsRightToLeft="true">
+  <LocaleResource Name="AdminEmail">
+    <Value>אימיל מנהל החנות</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Products.List.SearchProductSku">
+    <Value>חיפוש לפי מקט</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Products.List.SearchProductSku.Hint">
+    <Value>חיפוש לפי מקט, מבטל את החיפוש לפי שם המוצר.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Products.ProductAttributes.Attributes.Values.Fields.AssociatedProductSku">
+    <Value>מקט המוצר</Value>
+  </LocaleResource>
+</Language>

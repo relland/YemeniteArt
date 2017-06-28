@@ -1,0 +1,448 @@
+﻿@model ProductListModel
+
+@using Nop.Plugin.Widgets.Wholesaler.Models
+@using System.Web.Mvc.Html;
+@using Nop.Web.Framework.UI
+@using System.Web.Mvc
+@using Kendo.Mvc
+
+@{
+    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
+
+    var defaultGridPageSize = 20;// EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
+    var gridPageSizes = 20;// EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
+
+    Html.AppendCssFileParts("~/Plugins/Widgets.Wholesaler/Content/styles.css");
+    ////page title
+    //ViewBag.Title = T("Admin.Catalog.Products").Text;
+    ////active menu item (system name)
+    //Html.SetActiveMenuItemSystemName("Products");
+}
+@section left
+{
+    @Html.Action("CustomerNavigation", "Wholesaler")
+    @Html.Action("ProductFiltering", "Wholesaler")
+}
+<link href="~/Administration/Content/kendo/2014.1.318/kendo.rtl.min.css" rel="stylesheet" />
+<link href="~/Administration/Content/kendo/2014.1.318/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Administration/Content/kendo/2014.1.318/kendo.common.min.css" rel="stylesheet" />
+<script src="~/Administration/Scripts/kendo/2014.1.318/kendo.web.min.js"></script>
+@using (Html.BeginForm())
+{
+    <div></div>
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Wholesaler.Products")
+        </h1>
+
+    </div>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">@T("Wholesaler.Catalog")</a></li>
+            <li><a href="#tabs-2">@T("Wholesaler.Cart")</a></li>
+        </ul>
+        <div id="tabs-1">
+
+            <div class="content">
+                <div class="form-horizontal">
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div id="products-grid"></div>
+
+                                <script>
+                                    $(document).ready(function() {
+                                        $("#products-grid").kendoGrid({
+                                            dataSource: {
+                                                type: "json",
+                                                transport: {
+                                                    read: @*function(options) {
+                                                        // Get the table
+                                                        var table = "@Url.RouteUrl("Wholesaler.ProductList")";//client.getTable("Customer");
+
+                                                        // Build base query
+                                                        var query = table.includeTotalCount();
+
+                                                        // Add paging
+                                                        if(options.data.skip !== undefined && options.data.take !== undefined) {
+                                                            query = query.skip(options.data.skip).take(options.data.take);
+                                                        }
+
+                                                        // Add sorting
+                                                        if(typeof options.data.sort !== "undefined" && options.data.sort !== null) {
+                                                            for(var i = 0; i< options.data.sort.length; i++) {
+                                                                if(options.data.sort[i].dir === "desc") {
+                                                                    query = query.orderByDescending(options.data.sort[i].field);
+                                                                }
+                                                                else {
+                                                                    query = query.orderBy(options.data.sort[i].field);
+                                                                }
+                                                            }
+                                                        }
+
+                                                        var promise = query.read();
+
+                                                        promise.done(function(data) {
+                                                            options.success(data);
+                                                        });
+                                                    },*@
+
+                                                        {
+                                                        url: "@Url.RouteUrl("Wholesaler.ProductList")", //Html.Raw(Url.Action("ProductList", "Nop.Plugin.Widgets.Wholesaler.Controllers.Wholesaler"))",
+                                                        type: "POST",
+                                                        dataType: "json",
+                                                        data: productsAdditionalData
+                                                    }
+
+                                                },
+                                                schema: {
+                                                    data: "Data",
+                                                    total: "Total",
+                                                    errors: "Errors"
+                                                },
+                                                error: function(e) {
+                                                    display_kendoui_grid_error(e);
+                                                    // Cancel the changes
+                                                    this.cancelChanges();
+                                                },
+                                                pageSize: @(defaultGridPageSize),
+                                                serverPaging: true,
+                                                serverFiltering: true,
+                                                serverSorting: true
+                                            },
+                                            pageable: {
+                                                refresh: true,
+                                                pageSizes: [@(gridPageSizes)]
+                                            },
+                                            //sortable: true,
+                                            //sortable: {
+                                            //    mode: "multiple",
+                                            //    allowUnsort: true
+                                            //},
+                                            //filterable: true,
+                                            scrollable: false,
+                                            dataBound: onDataBound,
+                                            columns: [
+                                                {
+                                                    field: "Id",
+                                                    headerAttributes: { style: "display:none" },
+                                                    attributes: { style: "display:none" },
+                                                    width: 50
+                                                },
+                                                {
+                                                    field: "PictureThumbnailUrl",
+                                                    title: "@T("wholesaler.PictureThumbnailUrl")",
+                                                    template: '<div class="wholesaler-img-div" data-productid="#=Id#"><div class="wholesaler-img"><a href="/#=SeName#"><img src="#=PictureThumbnailUrl#" /></a></div></div>',
+                                                    width: 80
+                                                },
+                                                {
+                                                    field: "Name",
+                                                    title: "@T("wholesaler.Name")",
+                                                    width: 300
+                                                }, {
+                                                    field: "Sku",
+                                                    title: "@T("wholesaler.Sku")",
+                                                    width: 150
+                                                },
+                                                {
+                                                    field: "RetailPrice",
+                                                    title: "@T("wholesaler.RetailPrice")",
+                                                    width: 150,
+                                                    //if not a grouped product, then display
+                                                    //template: "# if(ProductTypeId != @*@((int) ProductType.GroupedProduct)*@) {# #:Price# #}  #"
+                                                },
+                                                {
+                                                    field: "WholesalerPrice",
+                                                    title: "@T("wholesaler.WholesalerPrice")",
+                                                    width: 150
+                                                }
+                                            ]
+                                        });
+                                    });
+                                </script>
+                                @*@(Html.Kendo().Grid<ProductModel>()
+                                    .Name("products-grid")
+                                    .Columns(columns =>
+                                    {
+                                        columns.Bound(c => c.PictureThumbnailUrl).ClientTemplate("<div class='wholesaler-img-div' data-productid='#=Id#'><div class='wholesaler-img'><a href='/#=SeName#'><img src='#=PictureThumbnailUrl#' /></a></div></div>");
+                                        columns.Bound(c => c.Name);
+                                        columns.Bound(c => c.Sku);
+                                        columns.Bound(c => c.RetailPrice);
+                                        columns.Bound(c => c.WholesalerPrice);
+                                    })
+                                    .HtmlAttributes(new { style = "height: 550px;" })
+                                    .Scrollable()
+                                    .Groupable()
+                                    .Sortable()
+                                    .Pageable(pageable => pageable
+                                        .Refresh(true)
+                                        .PageSizes(true)
+                                        .ButtonCount(5))
+                                    .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .Read(read => read.Action("ProductList", "Wholesaler"))
+                                        .PageSize(defaultGridPageSize)
+                                    )
+                                                            )*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tabs-2">
+
+            <div class="content">
+                <div class="form-horizontal">
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div id="cart-products-grid"></div>
+
+                                <script>
+                            $(document).ready(function() {
+                                $("#cart-products-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Url.RouteUrl("Wholesaler.Cart")", @*@Html.Raw(Url.Action("ProductList", "Nop.Plugin.Widgets.Wholesaler.Controllers.Wholesaler"))",*@
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)]
+                                    },
+                                    @*editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },*@
+                                    sortable: true,
+                                    scrollable: false,
+                                    dataBound: onDataBound,
+                                    columns: [
+                                        {
+                                            field: "ProductId",
+                                            headerAttributes: { style: "display:none" },
+                                            attributes: { style: "display:none" },
+                                            width: 50
+                                        },
+                                        {
+                                            field: "ImageUrl",
+                                            title: "@T("wholesaler.PictureThumbnailUrl")",
+                                            template: '<div class="wholesaler-img-div" data-productid="#=ProductId#"><div class="wholesaler-img"><a href="/#=ProductSeName#"><img src="#=ImageUrl#" /></a></div></div>',
+                                            width: 80
+                                        },
+                                        {
+                                            field: "ProductName",
+                                            title: "@T("wholesaler.Name")",
+                                            width: 300
+                                        }, {
+                                            field: "Sku",
+                                            title: "@T("wholesaler.Sku")",
+                                            width: 100
+                                        },
+                                        {
+                                            field: "UnitPrice",
+                                            title: "@T("wholesaler.UnitPrice")",
+                                            width: 100
+                                        }, {
+                                            field: "Quantity",
+                                            title: "@T("wholesaler.Quantity")",
+                                            width: 100
+                                        }, {
+                                            field: "SubTotal",
+                                            title: "@T("wholesaler.SubTotal")",
+                                            width: 100,
+                                        }
+                                    ]
+                                });
+                            });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var sortB = $("<span class='k-icon k-i-arrow-n'></span>");
+        var sortT = $("<span class='k-icon k-i-arrow-s'></span>");
+        var sortBClass = "k-i-arrow-n";
+        var sortTClass = "k-i-arrow-s";
+        var sortName = "none";
+        var sortSku = "none";
+        var sortRetailPrice = "none";
+        var sortWholesalerPrice = "none";
+        var selectedIds = [];
+        function doAppendSort(elem){
+            if (elem.has("span.k-i-arrow-n").length){
+                elem.find("span").remove();//Class("k-i-arrow-n");
+                updateFilterData(elem.attr("data-field"), "none");
+            }
+            else if (elem.has("span.k-i-arrow-s").length){
+                elem.find("span").removeClass("k-i-arrow-s").addClass("k-i-arrow-n");
+                updateFilterData(elem.attr("data-field"), "bottomn");
+            }
+            else {
+                elem.append("<span class='k-icon k-i-arrow-s'></span>");
+                updateFilterData(elem.attr("data-field"), "top");
+            }
+        }
+        function updateFilterData(dataField, filterOption){
+            switch (dataField) {
+                case "Name":
+                    sortName = filterOption;
+                    break;
+                case "Sku":
+                    sortSku = filterOption;
+                    break;
+                case "RetailPrice":
+                    sortRetailPrice = filterOption;
+                    break;
+                case "WholesalerPrice":
+                    sortWholesalerPrice = filterOption;
+                    break;
+            }
+            var grid = $('#products-grid').data('kendoGrid');
+            grid.dataSource.read();
+        }
+        $(document).ready(function () {
+            //search button
+            $('#search-products').click(function () {
+                //search
+                var grid = $('#products-grid').data('kendoGrid');
+                grid.dataSource.page(1); //new search. Set page size to 1
+                grid.dataSource.read();// we already loaded the grid above using "page" function
+                //clear selected checkboxes
+                //$('.checkboxGroups').attr('checked', false).change();
+                //selectedIds = [];
+                return false;
+            });
+
+            $('body #products-grid').on("click", "th[data-field='Name'], th[data-field='Sku'], th[data-field='RetailPrice'], th[data-field='WholesalerPrice']", function(){
+                doAppendSort($(this));
+            });
+
+            $('body #go-to-product-by-sku').on("click", function(){
+                sortName = sortSku = sortRetailPrice = sortWholesalerPrice = "none";
+                $("#search-products").click();
+                return false;
+            });
+
+            $("#SearchProductName").keydown(function (event) {
+                if (event.keyCode === 13) {
+                    $("#search-products").click();
+                    return false;
+                }
+            });
+
+            $("#GoDirectlyToSku").keydown(function (event) {
+                if (event.keyCode === 13) {
+                    $("#go-to-product-by-sku").click();
+                    return false;
+                }
+            });
+
+            $( "#tabs" ).tabs();
+        });
+
+        function productsAdditionalData() {
+            var data = {
+                SearchProductName: $("#SearchProductName").val(),@*$('#@Html.FieldIdFor(model => model.SearchProductName)').val(),*@
+                SearchCategoryId: $('#SearchCategoryId').val(),
+                SortByName: sortName,
+                SortBySku: sortSku,
+                SortByRetailPrice: sortRetailPrice,
+                SortByWholesalerPrice: sortWholesalerPrice,
+                GoDirectlyToSku: $("#GoDirectlyToSku").val(),
+                //SearchIncludeSubCategories: "",@*$('#@Html.FieldIdFor(model => model.SearchIncludeSubCategories)').is(':checked'),*@
+                //SearchManufacturerId: $('#SearchManufacturerId').val(),
+                //SearchStoreId: $('#SearchStoreId').val(),
+                //SearchWarehouseId: $('#SearchWarehouseId').val(),
+                //SearchVendorId: $('#SearchVendorId').val(),
+                //SearchProductTypeId: $('#SearchProductTypeId').val(),
+                //SearchPublishedId: $('#SearchPublishedId').val(),
+                //VisibleIndividuallyOnly: $('#VisibleIndividuallyOnly').val()
+            };
+            addAntiForgeryToken(data);
+            return data;
+        }
+
+        function additionalData() {
+            return {};
+        }
+        function onDataBound(e) {
+            quickViewInit();
+            $('#products-grid input[type=checkbox][id!=mastercheckbox]').each(function () {
+                var currentId = $(this).val();
+                var checked = jQuery.inArray(currentId, selectedIds);
+                //set checked based on if current checkbox's value is in selectedIds.
+                $(this).attr('checked', checked > -1);
+            });
+
+            updateMasterCheckbox();
+        }
+
+        function updateMasterCheckbox() {
+            var numChkBoxes = $('#products-grid input[type=checkbox][id!=mastercheckbox]').length;
+            var numChkBoxesChecked = $('#products-grid input[type=checkbox][id!=mastercheckbox]:checked').length;
+            $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+        }
+    </script>
+}
+
+<style>
+    #excel-explain-window .k-grid table tr:hover > td.attr,
+    #excel-explain-window td.attr, .attr.indicator {
+        background-color: #D1D7FF !important;
+    }
+
+    #excel-explain-window th.k-header.attr {
+        background-color: #C6CEFF;
+    }
+
+    .attr.indicator {
+        width: 60%;
+        display: block;
+        margin: 20px auto;
+        border: 1px red solid;
+        padding: 10px;
+    }
+
+    table .text-aligen-center, table .k-header {
+        width: 190px !important;
+    }
+
+    .demo-images img {
+        width: 200px !important;
+        height: auto !important;
+    }
+    /*.excel-explain-window {
+        position: absolute;
+        z-index:999;
+        display:block;
+    }
+    .excel-explain-window.hidenow {
+        display:none;
+    }*/
+</style>

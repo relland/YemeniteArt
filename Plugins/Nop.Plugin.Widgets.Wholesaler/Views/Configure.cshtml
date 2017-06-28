@@ -1,0 +1,78 @@
+﻿@{
+    Layout = "";
+}
+@model ConfigurationModel
+@using Nop.Plugin.Widgets.Wholesaler.Models;
+@using Nop.Web.Framework;
+
+@Html.Action("StoreScopeConfiguration", "Setting", new { area = "Admin" })
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("admin.Wholesaler.configuare")
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.EnableWidget_OverrideForStore, model => model.EnableWidget, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.EnableWidget)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.EnableWidget)
+                        @Html.ValidationMessageFor(model => model.EnableWidget)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.WholesalerRoleSystemName_OverrideForStore, model => model.WholesalerRoleSystemName, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.WholesalerRoleSystemName)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.WholesalerRoleSystemName)
+                        @Html.ValidationMessageFor(model => model.WholesalerRoleSystemName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.PercentageAmount_OverrideForStore, model => model.PercentageAmount, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.PercentageAmount)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.PercentageAmount)
+                        @Html.ValidationMessageFor(model => model.PercentageAmount)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.LastCalculationDate_OverrideForStore, model => model.LastCalculationDate, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.LastCalculationDate)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.LastCalculationDate)
+                        @Html.ValidationMessageFor(model => model.LastCalculationDate)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        &nbsp;
+                    </div>
+                    <div class="col-md-9">
+                        <input type="submit" name="save" class="btn bg-blue" value="@T("admin.Wholesaler.save")" />
+                        <a href="@Url.RouteUrl("Wholesaler.ReCalculate")" class="btn bg-blue">@T("admin.Wholesaler.ReCalculateAllProductsWithNewPercentage")</a>
+                        <span>@T("admin.Wholesaler.FirstSaveChangesAndThenReCalculate")</span>
+                    </div>
+                    <div class="col-md-9">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

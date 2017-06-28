@@ -1,0 +1,24 @@
+﻿@model EventModel
+@using Nop.Admin.Models.Events;
+@using System.Globalization;
+@{
+    //page title
+    ViewBag.Title = T("rel.editevent").Text;
+}
+@using (Html.BeginForm())
+{
+    <div class="section-header">
+        <div class="title">
+            <img src="@Url.Content("~/Administration/Content/images/ico-customers.png")" alt="" />
+            @T("rel.startsat") - @Model.StartsAt.ToString() @T("rel.endsat") - @Model.EndsAt.ToString()
+            @Html.ActionLink("(" + T("rel.BackToOpenEvent") + ")", "Edit", new { id = Model.OpenEventId })
+        </div>
+        <div class="options">
+            <input type="submit" name="save" class="k-button" value="@T("Admin.Common.Save")" />
+            <input type="submit" name="save-continue" class="k-button" value="@T("Admin.Common.SaveContinue")" />
+            <span id="event-delete" class="k-button">@T("Admin.Common.Delete")</span>
+        </div>
+    </div>
+    @Html.Partial("_CreateOrUpdateEvent", Model)
+}
+@Html.DeleteConfirmation("event-delete")

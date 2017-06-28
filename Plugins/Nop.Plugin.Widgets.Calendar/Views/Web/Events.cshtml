@@ -1,0 +1,161 @@
+﻿@model CustomerEventsModel
+@using Nop.Web.Models.Customer;
+@using Nop.Core;
+@using Nop.Web.Extensions;
+@{
+    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title
+    Html.AddTitleParts(T("Events").Text);
+    var emptyDaysStart = "";
+    var emptyDaysEnd = "";
+    int j = 0;
+    int day = 1;
+    for (int i = 0; i < Model.DayOfWeek; i++)
+    {
+        emptyDaysStart += "<td class=\"empty\"></td>";
+        j++;
+    }
+    j = 7 - ((j + Model.NumOfDays) % 7);
+    for (int x = 0; x < j; x++)
+    {
+        emptyDaysEnd += "<td class=\"empty\"></td>";
+    }
+}
+@section left
+{
+    @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
+}
+@if (Model.DisplayMessage)
+{
+<div class="event-success-notification @(Model.Success ? " success" : " error")">
+    @Model.Message
+</div>
+}
+<div class="events-header">
+    <a href="javascript:goToMonth('@(Model.Month - 1)', '@Model.Year')"><</a>
+    <span class="month">@Model.MonthName</span>
+    <span class="year">@Model.Year</span>
+    <a href="javascript:goToMonth('@(Model.Month + 1)', '@Model.Year')">></a>
+</div>
+<table class="calander">
+    <thead class="button-3">
+        <tr>
+            <th>@T("sunday")</th>
+            <th>@T("monday")</th>
+            <th>@T("tuesday")</th>
+            <th>@T("wednesday")</th>
+            <th>@T("thursday")</th>
+            <th>@T("friday")</th>
+            <th>@T("saturday")</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="events">
+            @Html.Raw(emptyDaysStart)
+
+            @foreach (var oem in Model.MonthDays)
+            {
+                <td class="no-events" data-id="@day">@(day)    @*@(oem.OpenEvents.Count > 0 ? "events" : "no-events") *@                
+                    @*@foreach (var oe in oem.OpenEvents)
+                    {
+                        <span>Starts At @oe.StartsAt</span>
+                        for (var sess = 1; sess <= oe.NumberOfSessions; sess++ )
+                        {
+                            <span>@(oe.MySessions.Contains(sess) ? "MySession" : "NotMySession")</span>
+                        }
+                    }*@
+                </td>  
+        
+                @*while (j < oem.StartsAt.Day)
+                { 
+                    <td class="no-events">@j.ToString()</td>
+                    j++;
+                }
+                <td class="events" data-id="@oem.FrontId">
+                    @oem.StartsAt.TimeOfDay
+                    @oem.EndsAt.TimeOfDay
+                </td>
+                if (j == 8)
+                { 
+                    j = 1;
+                }*@
+                @(day++)
+            }
+            @Html.Raw(emptyDaysEnd)
+            @*@while (j < Model.NumOfDays)
+            { 
+                <td class="no-events">@j.ToString()</td>
+                j++;
+            }*@
+        </tr>
+    </tbody>
+</table>
+<div class="indicators">
+    <div class="available"><span></span>@T("available")</div>
+    <div class="not-available"><span></span>@T("notavailable")</div>
+    <div class="your-event"><span></span>@T("yourevent")</div>
+</div>
+@*@foreach (var oem in Model.OpenEvents)
+{ 
+    <div class="open-event" id="open-event-@oem.FrontId">
+        @foreach (var evnt in oem.Events)
+        { 
+            <div class="event" id="event-@evnt.FrontId">
+                <span>@T("rel.startsat"): @evnt.StartsAt</span><br />
+                <span>@T("rel.endsat"): @evnt.EndsAt</span><br />
+                @if (evnt.MyEvent)
+                { 
+                    <span>@T("rel.adminComment"): @evnt.AdminComment</span><br />
+                    <span>@T("rel.customerComment"): @evnt.CustomerComment</span><br />
+                    <span>@T("rel.email"): @evnt.Email</span><br />
+                    <span>@T("rel.phonenumber"): @evnt.PhoneNumber</span><br />
+                    <span>@T("rel.language"): @evnt.Language</span>       
+                }
+            </div>
+        }
+    </div>
+}*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$('td.full').click(function () {
+        //    $(".open-event").css('display', 'none');
+        //    var id = $(this).attr('data-id');
+        //    $('#open-event-' + id).css('display', 'block');
+        //});
+        //$(".open-event").draggable();
+        $.get('@Url.RouteUrl("MonthEvents", new { year = Model.Year, month = Model.Month })', function (data) {
+            $("#events").html(data);
+        });
+        $('a.save-event-button').on("click", function () {
+            $.get('@Url.RouteUrl("AddEvent", new { Year= 2014, Month= 11, Day= 11, CustomerComment= "sadf", ToHour= 12, ToMinute= 0, FromHour= 10, FromMinute= 0 })', { Year: $("input[name='Year']").text(), Month: $("input[name='Month']").text(), Day: $("input[name='Day']").text(), CustomerComment: $("textarea[name='CustomerComment']").text(), ToHour: $("input[name='ToHour']").text(), ToMinute: $("input[name='ToMinute']").text(), FromHour: $("input[name='FromHour']").text(), FromMinute: $("input[name='FromMinute']").text() })
+                .done(function (data) {
+                    $(".resault").text(data);
+                });
+            //    showWait();
+            //$.get('/categoryNavigation2/2/0', function (data) {
+            //    hideWait();
+            //    $(".header-menu").html(data);
+            //});
+        });
+        function showWait() {
+            $(".block-category-navigation").addClass('wait');
+        }
+        function hideWait() {
+            $(".block-category-navigation.wait").removeClass('wait');
+        }
+        $('a.save-event-button').on("click", function () {
+            alert("works!");
+        });
+    });
+    //function goToMonth(month, year) {
+    //    if (month < 1) {
+    //        month = 12;
+    //        year = year - 1;
+    //    }
+    //    if (month > 12) {
+    //        month = 1;
+    //        year = year + 1;
+    //    }
+    //}
+</script>

@@ -1,0 +1,11 @@
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\Views\TaxCountryStateZip\Configure.cshtml
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\Description.txt
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\web.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\logo.jpg
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\Nop.Plugin.Tax.CountryStateZip.dll.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\Nop.Plugin.Tax.CountryStateZip.dll
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\Nop.Plugin.Tax.CountryStateZip.pdb
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Tax.CountryStateZip\obj\Debug\Nop.Plugin.Tax.CountryStateZip.csproj.App.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Tax.CountryStateZip\obj\Debug\Nop.Plugin.Tax.CountryStateZip.dll
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Tax.CountryStateZip\obj\Debug\Nop.Plugin.Tax.CountryStateZip.pdb
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Tax.CountryStateZip\obj\Debug\Nop.Plugin.Tax.CountryStateZip.csprojResolveAssemblyReference.cache

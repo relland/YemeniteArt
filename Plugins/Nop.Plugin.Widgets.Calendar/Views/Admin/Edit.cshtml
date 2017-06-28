@@ -1,0 +1,34 @@
+﻿@model OpenEventModel
+@using Nop.Admin.Models.Events;
+@using System.Globalization;
+@{
+    //page title
+    ViewBag.Title = T("OpenEvent.EditOpenEventDetails").Text;
+}
+@using (Html.BeginForm())
+{
+    <div class="section-header">
+        <div class="title">
+            <img src="@Url.Content("~/Administration/Content/images/ico-customers.png")" alt="" />
+            @T("rel.startsat") - @Model.StartsAt.ToString() @T("rel.endsat") - @Model.EndsAt.ToString()
+            @Html.ActionLink("(" + T("rel.BackToOpenEventsList") + ")", "List")
+        </div>
+        <div class="options">
+            <input type="submit" name="save" class="k-button" value="@T("Admin.Common.Save")" />
+            <input type="submit" name="save-continue" class="k-button" value="@T("Admin.Common.SaveContinue")" />
+            <a class="k-button" href="@Url.Action("CreateEvent", "Events", new { id = Model.Id })">@T("rel.addEvent")</a>
+            <span id="open-event-delete" class="k-button">@T("Admin.Common.Delete")</span>
+        </div>
+    </div>
+    @Html.Partial("_CreateOrUpdate", Model)
+}
+@Html.DeleteConfirmation("open-event-delete")
+@*rel - script to fix the double "delete" actions in the same eventsController, change the "delete" to "eventDelete"*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        var $form = $("form[action^='/Admin/Events/Delete/']");
+        var action = $form.attr("action");
+        action = action.replace("Delete", "DeleteOpenEvent");
+        $form.attr("action", action);
+    });
+</script>

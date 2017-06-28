@@ -1,0 +1,112 @@
+﻿@using Nop.Core.Infrastructure;
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.UI;
+
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+    var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
+    var gridPageSizes = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
+
+    //page title
+    ViewBag.Title = T("Plugins.Widgets.AllInOne.Manage").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("AllInOne");
+}
+
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("Plugins.Widgets.AllInOne.Manage")
+    </h1>
+    <div class="pull-right">
+        <a href="@Url.Action("Create")" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="allinone-grid"></div>
+
+                    <script>
+                $(document).ready(function () {
+                    $("#allinone-grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Html.Raw(Url.Action("List", "WidgetsAllInOne"))",
+                                    type: "POST",
+                                    dataType: "json"
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                total: "Total",
+                                errors: "Errors"
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            pageSize: @(defaultGridPageSize),
+                            serverPaging: true,
+                            serverFiltering: true,
+                            serverSorting: true
+                        },
+                        pageable: {
+                            refresh: true,
+                            pageSizes: [@(gridPageSizes)]
+                        },
+                        editable: {
+                            confirmation: false,
+                            mode: "inline"
+                        },
+                        scrollable: false,
+                        columns: [{
+                            field: "Name",
+                            title: "@T("Plugins.Widgets.AllInOne.Fields.Name")",
+                            width: 100
+                        },{
+                            field: "WidgetZone",
+                            title: "@T("Plugins.Widgets.AllInOne.Fields.WidgetZone")",
+                            width: 100,
+                        }, {
+                            field: "DisplayOrder",
+                            title: "@T("Plugins.Widgets.AllInOne.Fields.DisplayOrder")",
+                            width: 100
+                        }, {
+                            field: "Published",
+                            title: "@T("Plugins.Widgets.AllInOne.Fields.Published")",
+                            width: 100,
+                            headerAttributes: { style: "text-align:center" },
+                            attributes: { style: "text-align:center" },
+                            template: '# if(Published) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                        }, {
+                            field: "Id",
+                            title: "@T("Admin.Common.Edit")",
+                            width: 100,
+                            template: '<a href="@Url.Content("~/WidgetsAllInOne/Edit/")#=Id#">@T("Admin.Common.Edit")</a>'
+                        }]
+                    });
+                });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="adminContent">
+    <tr>
+        <td>
+          
+        </td>
+    </tr>
+</table>

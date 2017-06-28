@@ -1,0 +1,53 @@
+﻿@model ProductDetailsModel
+@using Nop.Web.Models.Catalog;
+<div class="back-to-default">
+    @if (Model.ComparisonPictureModel != null && !string.IsNullOrWhiteSpace(Model.ComparisonPictureModel.ImageUrl))
+    {
+        <div class="back-to-default-picture-title">@T("ya.clicktogobacktodefaultdesigh")</div>
+        <div class="back-to-default-picture">
+            <img alt="@Model.ComparisonPictureModel.AlternateText" 
+                 src="@Model.ComparisonPictureModel.ImageUrl" 
+                 title="@Model.ComparisonPictureModel.Title" 
+                 itemprop="image" 
+                 class="comparison-picture" 
+                 id="comparison-product-img-@Model.Id" />        
+        </div>
+        <script>
+            $(function () {
+                $(".back-to-default-picture").on("click", ".comparison-picture", function () {
+                    $("input[data-default]").each(function () {
+                        $(this).attr('checked', false);
+                    });
+                    $("input[data-default='True']").each(function () {
+                        $(this).click();
+                    });
+                    //$("ul.color-squares li").each(function () {
+                    //    if ($(this).is(":first-child")) {
+                    //        $(this).find("input").click();
+                    //    }
+                    //});
+                });
+            })
+        </script>
+    }
+</div>
+@*<a href="@Model.DefaultPictureModel.FullSizeImageUrl" title="@Model.DefaultPictureModel.Title" id="main-product-img-lightbox-anchor-@Model.Id">
+    <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" itemprop="image" id="main-product-img-@Model.Id" />
+</a>*@
+@*<script type="text/javascript">
+                $(document).ready(function () {
+                    $('#main-product-img-lightbox-anchor-@Model.Id').magnificPopup(
+                    {
+                        type: 'image',
+                        removalDelay: 300,
+                        gallery: {
+                            enabled: true,
+                            tPrev: '@T("Media.MagnificPopup.Previous")',
+                            tNext: '@T("Media.MagnificPopup.Next")',
+                            tCounter: '@T("Media.MagnificPopup.Counter")'
+                        },
+                        tClose: '@T("Media.MagnificPopup.Close")',
+                        tLoading: '@T("Media.MagnificPopup.Loading")'
+                    });
+                });
+</script>*@

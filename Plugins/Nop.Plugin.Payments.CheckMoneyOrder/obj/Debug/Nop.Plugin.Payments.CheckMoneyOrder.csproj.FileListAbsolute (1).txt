@@ -1,0 +1,11 @@
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Views\PaymentCheckMoneyOrder\Configure.cshtml
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Views\PaymentCheckMoneyOrder\PaymentInfo.cshtml
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\web.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Description.txt
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\logo.jpg
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Nop.Plugin.Payments.CheckMoneyOrder.dll.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Nop.Plugin.Payments.CheckMoneyOrder.dll
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Nop.Plugin.Payments.CheckMoneyOrder.pdb
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Payments.CheckMoneyOrder\obj\Debug\Nop.Plugin.Payments.CheckMoneyOrder.csproj.App.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Payments.CheckMoneyOrder\obj\Debug\Nop.Plugin.Payments.CheckMoneyOrder.dll
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Payments.CheckMoneyOrder\obj\Debug\Nop.Plugin.Payments.CheckMoneyOrder.pdb

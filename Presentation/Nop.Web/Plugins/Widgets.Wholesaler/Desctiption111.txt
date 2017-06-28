@@ -1,0 +1,9 @@
+﻿Group: Widgets
+FriendlyName: Wholesaler Prices
+SystemName: Widgets.Wholesaler
+Version: 1.00
+SupportedVersions:3.80
+Author: Ariel Landsman
+DisplayOrder: 1
+FileName: Nop.Plugin.Widgets.Wholesaler.dll
+Desctiption: Display Wholesaler Prices

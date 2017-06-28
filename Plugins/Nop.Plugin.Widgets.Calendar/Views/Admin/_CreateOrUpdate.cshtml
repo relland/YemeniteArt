@@ -1,0 +1,129 @@
+﻿@model OpenEventModel
+@using Nop.Admin.Models.Events;
+@using Nop.Core.Domain.Orders;
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+@*<div class="t-content t-state-active t-widget">*@
+<table class="adminContent">
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.StartsAt):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => model.StartsAt)
+            @Html.ValidationMessageFor(model => model.StartsAt)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.SessionLength):
+        </td>
+        <td class="adminData">
+            @Model.SessionLength
+            @Html.HiddenFor(model => model.SessionLength)
+            @*@Html.EditorFor(model => model.SessionLength)
+            @Html.ValidationMessageFor(model => model.SessionLength)*@
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.AllowedFromHour):
+        </td>
+        <td class="adminData">
+            @Model.AllowedFromHour
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.AllowedToHour):
+        </td>
+        <td class="adminData">
+            @Model.AllowedToHour
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.NumberOfSessions):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => model.NumberOfSessions)
+            @Html.ValidationMessageFor(model => model.NumberOfSessions)
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.EndsAt):
+        </td>
+        <td class="adminData">
+            @Model.EndsAt
+            @*@Html.EditorFor(model => model.EndsAt)
+            @Html.ValidationMessageFor(model => model.EndsAt)*@
+        </td>
+    </tr>
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.Active):
+        </td>
+        <td class="adminData">
+            @Html.EditorFor(model => model.Active)
+            @Html.ValidationMessageFor(model => model.Active)
+        </td>
+    </tr>
+    @if (Model.CreatedOn != null)
+    {
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.CreatedOn):
+        </td>
+        <td class="adminData">
+            @Model.CreatedOn
+        </td>
+    </tr>
+    }
+    @if (Model.UpdatedOn != null)
+    {
+    <tr>
+        <td class="adminTitle">
+            @Html.NopLabelFor(model => model.UpdatedOn):
+        </td>
+        <td class="adminData">
+            @Model.UpdatedOn
+        </td>
+    </tr>
+    }
+
+</table>   
+<div class="k-grid k-widget">
+<table> 
+    @if (Model.Events.Count > 0)
+    {
+        <thead class="k-grid-header">
+            <tr>
+                <th class="k-header">@T("rel.StartsAt")</th>
+                <th class="k-header">@T("rel.EndsAt")</th>
+                <th class="k-header">@T("rel.Active")</th>
+                <th class="k-header">@T("rel.ContactEmail")</th>
+                <th class="k-header">@T("rel.ContactPhoneNumbet")</th>
+                <th class="k-header">@T("rel.AdminComment")</th>
+                <th class="k-header">@T("rel.CustomerComment")</th>
+                <th class="k-header">@T("rel.Language")</th>
+                <th class="k-header">@T("rel.edit")</th>
+            </tr>
+        </thead>
+        foreach(var m in Model.Events)
+        {
+         <tr>
+            <td>@m.StartsAt.TimeOfDay</td>
+            <td>@m.EndsAt.TimeOfDay</td>
+            <td>@m.Active</td>
+            <td>@m.ContactEmail</td>
+            <td>@m.ContactPhoneNumbet</td>
+            <td>@m.AdminComment</td>
+            <td>@m.CustomerComment</td>
+            <td>@m.Language</td>
+            <td><a href="@Url.Action("EditEvent", new { id = m.Id })">@T("rel.editevent")</a></td>
+        </tr>
+        }
+    }
+</table>
+    </div>

@@ -1,0 +1,232 @@
+﻿@model List<NewMonthDayModel>
+@using Nop.Admin.Models.Events;
+@{
+    Layout = "";
+
+    var emptyDaysStart = "";
+    var emptyDaysEnd = "";
+    int j = 0;
+    int index = 1;
+    int uiIndex = 1;
+    int hourStart = ViewBag.FromHour;
+    var elementsPerLine = ViewBag.TotalHoursInDay;//ViewBag.TotalHoursInDay * 4(quorter hours) / 4(lines);
+    double cssWidth = (double)100 / (double)elementsPerLine;
+    for (int i = 0; i < ViewBag.FirstDayOfWeek; i++)
+    {
+        emptyDaysStart += "<td class=\"empty\"></td>";
+        j++;
+    }
+    j = 7 - ((j + ViewBag.TotalMonthDays) % 7);
+    for (int x = 0; x < j; x++)
+    {
+        emptyDaysEnd += "<td class=\"empty\"></td>";
+    }
+    var lineSpan = "</span><span class='line'>";
+    var uiLineSpan = "</span><span class='ui-line'>";
+    var uiStartLine = "<span class='ui-line'>";
+    var uiEndLine = "</span>";
+    var hadOpenEvent = false;
+}
+@Html.Raw(emptyDaysStart)
+
+@foreach (var monthDayModel in Model)
+{
+    index = 1;
+    <td class="@(monthDayModel.OpenEvents.Count > 0 ? "events" : "no-events")" data-id="@monthDayModel.DayOfMonth">
+        <span class="day-id">@(monthDayModel.DayOfMonth)</span>
+        @*days => 3 4 5 6 7 8 9 - 7 days*@
+        @*@{
+    var dayIndexStart = monthDayModel.DayOfMonth > 3 ? monthDayModel.DayOfMonth - 3 : monthDayModel.DayOfMonth;
+    var dayIndexEnd = monthDayModel.DayOfMonth < (ViewBag.TotalMonthDays - 3) ? monthDayModel.DayOfMonth + 3 : ViewBag.TotalMonthDays;
+            }*@
+        @*<span class="top-days-link-line">
+        @for (int dd = dayIndexStart; dd <= dayIndexEnd; dd++)
+        { 
+            <span class="top-day-link @(dd == monthDayModel.DayOfMonth ? " active" : null)">@(dd)</span>
+        }
+            </span>*@
+        @*monday june 14*@
+        <span class="day-title ui-title">@monthDayModel.DayName</span>
+        <span class="month-title ui-title">@monthDayModel.MonthName</span>
+        <span class="year-title ui-title">@monthDayModel.Year14</span>
+        <a href="@Url.Action("Create", new { year = monthDayModel.Year, month = monthDayModel.Month, day = monthDayModel.DayOfMonth })" class="a-day">@T("create") - @(monthDayModel.DayOfMonth)</a> 
+        @if (monthDayModel.HasOpenEvents)
+        { 
+            <div class="open-event-container k-grid k-widget">
+            <table>
+                        <thead class="k-grid-header">
+                            <tr>
+                                <th class="k-header"></th>
+                                <th class="k-header">@T("rel.time")</th>
+                                <th class="k-header">@T("rel.EachSessionLength")</th>
+                                <th class="k-header">@T("rel.NumberOfSessions")</th>
+                                <th class="k-header">@T("rel.editopenevent")</th>
+                                <th class="k-header">@T("rel.CreateEvent")</th>
+                            </tr>
+                        </thead>
+            @foreach (var openEvent in monthDayModel.OpenEvents)
+            { 
+                <tr class="open-event">     
+                    <td>@(openEvent.Events.Count > 0 ? "" : T("rel.noevents").ToString())</td>
+                    <td>@openEvent.StartsAt.TimeOfDay - @openEvent.EndsAt.TimeOfDay</td>
+                    <td>@openEvent.EachSessionLength</td>                   
+                    <td>@openEvent.NumberOfSessions</td>
+                    <td><a href="@Url.Action("Edit", new { id = openEvent.FrontId })">@T("rel.editopenevent")</a></td>
+                    <td><a href="@Url.Action("CreateEvent", new { id = openEvent.FrontId })">@T("rel.CreateEvent")</a></td>
+                </tr>
+                foreach (var evnt in openEvent.Events)
+                {
+                    <tr class="event k-alt">
+                        <td>@T("rel.events"):</td>
+                        <td>@evnt.StartsAt.TimeOfDay - @evnt.EndsAt.TimeOfDay</td>
+                        <td>
+                            <span>@T("rel.CustomerName"): @evnt.CustomerName</span>
+                            <span>@T("rel.Email"): @evnt.Email</span>                            
+                            <span>@T("rel.PhoneNumber"): @evnt.PhoneNumber</span>
+                            <span>@T("rel.Language"): @evnt.Language</span>
+                        </td>
+                        <td><span>@T("rel.CustomerComment"): @evnt.CustomerComment</span></td>
+                        <td><span>@T("rel.AdminComment"): @evnt.AdminComment</span></td>
+                        <td><a href="@Url.Action("EditEvent", new { id = evnt.Id })">@T("rel.editevent")</a></td>
+                    </tr>
+                }
+            }
+         </table>
+            </div>       
+            
+            <span class="front-open-event-container">
+                <span class="line">
+                    @foreach (var frontOE in monthDayModel.FrontDisplayOpenEvents)
+                    { 
+                        <span class="front-open-event @(frontOE.HasOpenEvent ? " has-open-event " : null)
+                            @(hadOpenEvent ? " had-open-event " : " first ")
+                            @(frontOE.HasEvent ? " has-event " : null)
+                            @(frontOE.MyEvent ? " my-event " : null)">
+                        </span>
+                        if (index % elementsPerLine == 0 && index != (elementsPerLine * 4))
+                        { 
+                            @Html.Raw(lineSpan)                            
+                        }
+                        index++;
+                        hadOpenEvent = frontOE.HasOpenEvent;
+                    }
+                </span>
+            </span>
+        }
+        </td> 
+    
+}
+    @Html.Raw(emptyDaysEnd)
+<script>
+    $(function () {
+        $("td.events, td.no-events").click(function () {
+            var $copy = $(this).clone();
+            $copy.appendTo('body');
+            $copy.dialog({ modal: true, width: 1150 });
+        });
+        $(".top-day-link").click(function () {
+            var $copy = $(this).clone();
+            $copy.appendTo('body');
+            $copy.dialog({ modal: true, width: 436 });
+        });
+    });
+  </script>
+<style>
+     .front-open-event {
+        width: @cssWidth%;
+    }
+    /*events*/
+.calander {
+        width: 736px;
+    }
+    .calander td {
+        width: 102px;
+        height: 80px;
+        display:inline-block;
+        float:left;
+        background-color:#ffffff;
+        border:1px solid #000000;
+        /* margin:5px; */
+    
+        border-right: none;
+}
+    .calander td.events {background-color:#EEEEEE;}
+    .calander th {
+        width: 93px;
+        /* height: 30px; */
+        display:inline-block;
+        /* float:left; */
+        /* background-color:#fff333; */
+        border:1px solid #000000;
+        padding: 10px 5px;
+    
+        border-right: none;
+}
+    td.empty {
+        background-color: #D1D3D4;
+    }
+    td.full {
+        background-color:#0094ff;
+    }
+    .open-event-container {display:none;}
+    .open-event {
+        /*display:none;
+        position:absolute;
+        top:100px;
+        right:100px;
+        width: 500px;
+        height:500px;*/
+        border:1px solid #000000;
+        background-color:#ffffff;
+        z-index:999999;
+    }
+    .ui-dialog .open-event-container {display:inline-block;}
+    .front-open-event-container {clear:both;display:block;margin: 3px;}
+.front-open-event-container .line {/* border: 1px solid #ffffff; */margin-bottom: 2px;clear: both;display: block;height: 10px;/* border-left: none; *//* border-right: none; */}
+.line .front-open-event.has-open-event.had-open-event:first-child, .line .has-open-event.first  {border-left: 1px solid #58595B;/* margin-left: -1px; */}
+.front-open-event.has-open-event.had-open-event {border-left: 1px solid #ffffff;/* border-right: 1px solid #58595B; *//* margin-left: -1px; */margin-right: -2px;padding-right: 0px;}
+.line .has-open-event:last-child {border-right: 1px solid #58595B;}
+.front-open-event.had-open-event:not(.has-open-event) {border-left: 1px solid #58595B;/* margin-left: -1px; */}
+.front-open-event {/*width: 12.5%;*/height: 8px;background-color:#ffffff;display: block;margin:0;padding:0;float:left;border: 1px solid #ffffff;margin-right: -2px;margin-bottom: 4px;}
+.front-open-event.has-open-event{border: 1px solid #58595B;border-left: none;/* border-right: none; */}
+.front-open-event.has-open-event.has-event {background: url(images/openevent.jpg) repeat;}
+.front-open-event.has-open-event.has-event.my-event {background-color:red;background-image:none;border-left: 1px solid red;}
+    .calander .ui-title, .calander .ui-dialog-open-event-container, .ui-dialog .front-open-event-container {display:none;}
+  .ui-dialog .top-days-link-line {
+    display: block;
+    border-bottom: 1px solid #6D6F71;
+    padding-bottom: 6px;
+}
+.ui-dialog .top-day-link {color:#ffffff;background-color:#6D6F71;border-radius: 12px;width: 16px;height: 16px;display: inline-block;padding: 4px;font-size: 12px;cursor:pointer;}
+.ui-dialog .top-day-link.active{background-color:#D2232A;}
+.ui-dialog .day-title {
+    border-right: 1px solid #6D6F71;
+    padding-right: 6px !important;
+}
+.ui-dialog .month-title {
+}
+.ui-dialog .year-title {
+}
+.ui-dialog .ui-title {
+    display: inline-block;
+    margin: 10px 0;
+}
+.ui-dialog .day-id {
+    /*display: none;*/
+}
+.ui-dialog-open-event-container {display:none;}
+.ui-dialog .ui-dialog-open-event-container {/*display:block;*//* border-bottom: 1px solid #6D6F71; *//* border-top: 1px solid #6D6F71; */}
+.ui-dialog .ui-line {border-bottom:1px solid #6D6F71;width:100%;clear:both;display:block;}
+.ui-dialog .ui-time {float:left;padding:4px 0;width: 60px;text-align: left;}
+.ui-dialog .has-open-event {background-color: #E2E2E2;}
+.ui-dialog .has-event {background-color: #EEE;}
+.ui-dialog .my-event {background-color: #D2232A;background-image: none;}
+.ui-dialog .ui-front-open-event {
+    width: 36px;
+    display: block;
+    height: 25px;
+    float: left;
+    margin-top: 1px;
+}
+.ui-dialog .front-open-event-container {display:none;}   
+</style>

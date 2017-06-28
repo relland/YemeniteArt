@@ -1,0 +1,6 @@
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Widgets.Calendar\bin\Debug\Desctiption.txt
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Widgets.Calendar\bin\Debug\web.config
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Widgets.Calendar\bin\Debug\Nop.Plugin.Widgets.Calendar.dll
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Widgets.Calendar\bin\Debug\Nop.Plugin.Widgets.Calendar.pdb
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Widgets.Calendar\obj\Debug\Nop.Plugin.Widgets.Calendar.dll
+E:\GoogleDrive1\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Widgets.Calendar\obj\Debug\Nop.Plugin.Widgets.Calendar.pdb

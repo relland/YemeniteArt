@@ -1,0 +1,11 @@
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Views\PaymentPurchaseOrder\Configure.cshtml
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Views\PaymentPurchaseOrder\PaymentInfo.cshtml
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\web.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Description.txt
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\logo.jpg
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Nop.Plugin.Payments.PurchaseOrder.dll.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Nop.Plugin.Payments.PurchaseOrder.dll
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Nop.Plugin.Payments.PurchaseOrder.pdb
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Payments.PurchaseOrder\obj\Debug\Nop.Plugin.Payments.PurchaseOrder.csproj.App.config
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Payments.PurchaseOrder\obj\Debug\Nop.Plugin.Payments.PurchaseOrder.dll
+E:\GoogleDrive\nopCommerce_ya\nopCommerce_3.80_Source\Plugins\Nop.Plugin.Payments.PurchaseOrder\obj\Debug\Nop.Plugin.Payments.PurchaseOrder.pdb

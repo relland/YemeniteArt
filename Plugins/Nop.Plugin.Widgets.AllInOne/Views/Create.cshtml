@@ -1,0 +1,33 @@
+﻿@model AllInOneModel
+@using Nop.Plugin.Widgets.AllInOne.Models;
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.UI;
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+    //page title
+    ViewBag.Title = T("Plugins.Widgets.AllInOne.AddNew").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("AllInOne");
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "allinone-form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Plugins.Widgets.AllInOne.AddNew")
+            <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink(T("Plugins.Widgets.AllInOne.BackToList").Text, "List")</small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.SaveContinue")
+            </button>
+        </div>
+    </div>
+    @Html.Partial("~/Plugins/Widgets.AllInOne/Views/_CreateOrUpdate.cshtml", Model)
+}
+

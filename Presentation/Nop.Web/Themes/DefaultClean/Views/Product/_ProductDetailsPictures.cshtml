@@ -1,0 +1,174 @@
+﻿@model ProductDetailsModel
+@using Nop.Web.Models.Catalog;
+@{
+    if (Model.PictureModels.Count > 1)
+    {
+        Html.AddScriptParts("~/Scripts/jquery.magnific-popup.min.js");
+        Html.AddCssFileParts("~/Content/magnific-popup/magnific-popup.css");
+    }
+    Html.AddScriptParts("~/Scripts/jquery.zoom.js");
+}
+<div class="gallery">
+    <div class="picture" id="picture">
+        @*@if (Model.DefaultPictureZoomEnabled)
+        {
+            <a href="@Model.DefaultPictureModel.FullSizeImageUrl" title="@Model.DefaultPictureModel.Title" id="main-product-img-lightbox-anchor-@Model.Id">
+                <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" itemprop="image" id="main-product-img-@Model.Id" />
+            </a>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#main-product-img-lightbox-anchor-@Model.Id').magnificPopup(
+                    {
+                        type: 'image',
+                        removalDelay: 300,
+                        gallery: {
+                            enabled: true,
+                            tPrev: '@T("Media.MagnificPopup.Previous")',
+                            tNext: '@T("Media.MagnificPopup.Next")',
+                            tCounter: '@T("Media.MagnificPopup.Counter")'
+                        },
+                        tClose: '@T("Media.MagnificPopup.Close")',
+                        tLoading: '@T("Media.MagnificPopup.Loading")'
+                    });
+                });
+            </script>
+        }
+        else
+        {*@
+            <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" itemprop="image" class="main-product-img" id="main-product-img-@Model.Id"/>
+        @*}*@
+    </div>
+    <div class="picture-2" id="picture-2"></div>
+    @if (Model.PictureModels.Count > 1)
+    {
+        <div class="picture-thumbs">
+            @foreach (var picture in Model.PictureModels)
+            {
+                <a class="thumb-popup-link" href="@picture.FullSizeImageUrl" title="@picture.Title">
+                    <img src="@picture.ImageUrl" alt="@picture.AlternateText" title="@picture.Title" />
+                </a>
+            }
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.thumb-popup-link').magnificPopup(
+                {
+                    type: 'image',
+                    removalDelay: 300,
+                    gallery: {
+                        enabled: true,
+                        tPrev: '@T("Media.MagnificPopup.Previous")',
+                        tNext: '@T("Media.MagnificPopup.Next")',
+                        tCounter: '@T("Media.MagnificPopup.Counter")'
+                    },
+                    tClose: '@T("Media.MagnificPopup.Close")',
+                    tLoading: '@T("Media.MagnificPopup.Loading")'
+                });
+            });
+        </script>
+    }
+    <canvas id="canvas"></canvas>
+    @*<canvas id="canvas-2"></canvas>*@
+</div>
+
+<script type="text/javascript">
+    var BIG_SIZE = 0;
+    var SMALL_SIZE = 0;
+    $(document).ready(function () {
+        $('.gallery').on('mouseenter', '#picture', function () {
+            doZoom();
+        });
+        $('body').on('mouseleave', '#zoom-element', function () {
+            undoZoom();
+        });
+        //$('.gallery').on('mouseenter', '#canvas-container', function () {
+        //    $('#canvas-container').addClass('active');
+        //});
+        $('body').on('mouseleave', '.zoomImg', function () {
+            undoZoom();
+        });
+    });
+
+    function doZoom() {
+        //get original image size
+        var imageObject = new Image();
+        imageObject.src = $(".gallery .picture img").first().attr("src");
+        BIG_SIZE = imageObject.width;
+        SMALL_SIZE = $(".gallery").width();
+
+        var bigSize = BIG_SIZE - 1;
+        var smallSize = SMALL_SIZE - 1;
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+
+        canvas.width = bigSize;
+        canvas.height = bigSize;
+
+        context.fillStyle = "#ffffff";
+        context.fillRect(0, 0, bigSize, bigSize);
+
+        //convert percent to pixel
+
+        var position = $(".main-product-img:first").position();
+        //var percents = parseInt(position.left);
+        //var parentWidth = parseInt($(".gallery").width());
+        //var pixels = parentWidth * (percents / 100);
+
+        $(".gallery .picture img").each(function () {
+            if ($(this).css("opacity") === "1" && $(this).css("display") === "block") {
+                var img = new Image();
+                img.src = $(this).attr("src");                
+                context.globalAlpha = 1.0;
+                //context.drawImage(img, 0, 0, bigSize, bigSize, 20, 0, bigSize, bigSize);
+                if ($(this).hasClass("duplicate"))
+                    context.drawImage(img, 0, 0, bigSize, bigSize, -position.left, 0, bigSize, bigSize);
+                else
+                    context.drawImage(img, 0, 0, bigSize, bigSize, position.left, 0, bigSize, bigSize);
+            }
+        });
+        var dataURL = canvas.toDataURL();
+        var span = $("<span class='zoom' id='zoom-element' />");
+        var image = $("<img id='zoom-image' src='" + dataURL + "' width='" + smallSize + "' height='" + smallSize + "' />").appendTo($(span));
+        $(span).appendTo($(".gallery"));
+        $(".gallery .picture").hide();
+        $('#zoom-element').zoom();
+        //context.globalAlpha = 0.5;
+        //context.drawImage($(".gallery .picture img").first(), 0, 0);
+        //context.globalAlpha = 0.5; //Remove if pngs have alpha
+        //context.drawImage(img2, 0, 0);
+    }
+    function undoZoom() {
+        $("#zoom-element").remove();
+        $(".gallery .picture").show();
+    }
+</script>
+<style>
+    /*zoom*/
+    .zoom {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+    .zoom img {
+			display: block;
+		}
+
+		.zoom img::selection { background-color: transparent; }
+    /*end-zoom*/
+
+    #canvas {
+        display: none;
+        /*z-index: 999;*/
+    }
+    /*#canvas-container.active {
+        display: block;
+    }*/
+    /*#canvas {
+        border: 2px solid red;
+        background-color: #ffffff;
+    }*/
+</style>
+@*<span class='zoom' id='ex1'>
+    <img src='daisy.jpg' width='555' height='320' alt='Daisy on the Ohoopee' />
+    <p>Hover</p>
+</span>*@
