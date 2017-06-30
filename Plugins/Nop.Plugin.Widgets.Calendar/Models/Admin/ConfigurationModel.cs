@@ -8,6 +8,8 @@ namespace Nop.Plugin.Widgets.Calendar.Models.Admin
 {
     public class ConfigurationModel
     {
+        public int ActiveStoreScopeConfiguration { get; set; }
+
         public bool EnableWidget { get; set; }
         public string CalanderAccessRoleSystemName { get; set; }
 

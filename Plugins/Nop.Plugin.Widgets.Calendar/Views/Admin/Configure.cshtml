@@ -1,0 +1,191 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Plugin.Widgets.Calendar.Models.Admin.ConfigurationModel
+@using Nop.Web.Framework;
+
+@Html.Action("StoreScopeConfiguration", "Setting", new { area = "Admin" })
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("Plugins.EnableWidget")
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.EnableWidget_OverrideForStore, model => model.EnableWidget, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.EnableWidget)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.EnableWidget)
+                        @Html.ValidationMessageFor(model => model.EnableWidget)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.CalanderAccessRoleSystemName_OverrideForStore, model => model.CalanderAccessRoleSystemName, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.CalanderAccessRoleSystemName)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.CalanderAccessRoleSystemName)
+                        @Html.ValidationMessageFor(model => model.CalanderAccessRoleSystemName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.CanOverlapOtherSessions_OverrideForStore, model => model.CanOverlapOtherSessions, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.CanOverlapOtherSessions)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.CanOverlapOtherSessions)
+                        @Html.ValidationMessageFor(model => model.CanOverlapOtherSessions)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("Plugins.Widgets.NivoSlider.Picture2")
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.PermittedOverlappingThreshold_OverrideForStore, model => model.PermittedOverlappingThreshold, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.PermittedOverlappingThreshold)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.PermittedOverlappingThreshold)
+                        @Html.ValidationMessageFor(model => model.PermittedOverlappingThreshold)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.DisabledDays_OverrideForStore, model => model.DisabledDays, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.DisabledDays)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.DisabledDays)
+                        @Html.ValidationMessageFor(model => model.DisabledDays)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.DisabledDates_OverrideForStore, model => model.DisabledDates, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.DisabledDates)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.DisabledDates)
+                        @Html.ValidationMessageFor(model => model.DisabledDates)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("Plugins.Widgets.NivoSlider.Picture3")
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.SessionsDayAndTimeRange_OverrideForStore, model => model.SessionsDayAndTimeRange, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.SessionsDayAndTimeRange)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.SessionsDayAndTimeRange)
+                        @Html.ValidationMessageFor(model => model.SessionsDayAndTimeRange)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.SessionLengthByMinutes_OverrideForStore, model => model.SessionLengthByMinutes, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.SessionLengthByMinutes)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.SessionLengthByMinutes)
+                        @Html.ValidationMessageFor(model => model.SessionLengthByMinutes)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.SessionAvailablilityCustomerCount_OverrideForStore, model => model.SessionAvailablilityCustomerCount, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.SessionAvailablilityCustomerCount)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.SessionAvailablilityCustomerCount)
+                        @Html.ValidationMessageFor(model => model.SessionAvailablilityCustomerCount)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("Plugins.Widgets.NivoSlider.Picture4")
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.LastSessionCreationDate_OverrideForStore, model => model.LastSessionCreationDate, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.LastSessionCreationDate)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.LastSessionCreationDate)
+                        @Html.ValidationMessageFor(model => model.LastSessionCreationDate)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.From_OverrideForStore, model => model.From, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.From)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.From)
+                        @Html.ValidationMessageFor(model => model.From)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.To_OverrideForStore, model => model.To, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.To)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.To)
+                        @Html.ValidationMessageFor(model => model.To)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("Plugins.Widgets.NivoSlider.Picture5")
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.OverrideStoreCheckboxFor(model => model.LastSessionDate_OverrideForStore, model => model.LastSessionDate, Model.ActiveStoreScopeConfiguration)
+                        @Html.NopLabelFor(model => model.LastSessionDate)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.LastSessionDate)
+                        @Html.ValidationMessageFor(model => model.LastSessionDate)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        &nbsp;
+                    </div>
+                    <div class="col-md-9">
+                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

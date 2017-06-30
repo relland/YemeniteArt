@@ -79,8 +79,8 @@
     <Compile Include="Data\SessionMap.cs" />
     <Compile Include="Data\OpenEventMap.cs" />
     <Compile Include="DependencyRegistrar.cs" />
+    <Compile Include="Domain\Customer_Session_Map.cs" />
     <Compile Include="Domain\Session.cs" />
-    <Compile Include="Domain\OpenEvent.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Models\Admin\ConfigurationModel.cs" />
     <Compile Include="Models\Admin\EventModel.cs" />
@@ -108,6 +108,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Admin\Configure.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Views\Admin\Create.cshtml" />
     <None Include="Views\Admin\CreateEvent.cshtml" />
     <None Include="Views\Admin\Edit.cshtml" />
@@ -118,6 +121,9 @@
     <None Include="Views\Admin\temp.cshtml" />
     <None Include="Views\Admin\_CreateOrUpdate.cshtml" />
     <None Include="Views\Admin\_CreateOrUpdateEvent.cshtml" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Web\Events.cshtml" />
   </ItemGroup>
   <ItemGroup>

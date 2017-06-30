@@ -417,20 +417,20 @@ namespace Nop.Services.ExportImport
                 {
                     DropDownElements = AttributeValueType.Simple.ToSelectList(useLocalization: false)
                 },
-                new PropertyByName<ExportProductAttribute>("AssociatedProductId", p => p.AssociatedProductId),
+                //new PropertyByName<ExportProductAttribute>("AssociatedProductId", p => p.AssociatedProductId),
                 new PropertyByName<ExportProductAttribute>("Quantity", p => p.Quantity),
                 //
-                new PropertyByName<ExportProductAttribute>("ColorSquaresRgb", p => p.ColorSquaresRgb),
-                new PropertyByName<ExportProductAttribute>("ImageSquaresPictureId", p => p.ImageSquaresPictureId),
+                //new PropertyByName<ExportProductAttribute>("ColorSquaresRgb", p => p.ColorSquaresRgb),
+                //new PropertyByName<ExportProductAttribute>("ImageSquaresPictureId", p => p.ImageSquaresPictureId),
                 new PropertyByName<ExportProductAttribute>("PriceAdjustment", p => p.PriceAdjustment),
-                new PropertyByName<ExportProductAttribute>("WeightAdjustment", p => p.WeightAdjustment),
-                new PropertyByName<ExportProductAttribute>("Cost", p => p.Cost),
+                //new PropertyByName<ExportProductAttribute>("WeightAdjustment", p => p.WeightAdjustment),
+                //new PropertyByName<ExportProductAttribute>("Cost", p => p.Cost),
                 new PropertyByName<ExportProductAttribute>("ZIndex", p => p.ZIndex),
                 //new PropertyByName<ExportProductAttribute>("IsStoneProductAttributeValue", p => p.IsStoneProductAttributeValue),
                 //rel
                 new PropertyByName<ExportProductAttribute>("IsPreSelected", p => p.IsPreSelected),
                 new PropertyByName<ExportProductAttribute>("DisplayOrder", p => p.DisplayOrder),
-                new PropertyByName<ExportProductAttribute>("PictureId", p => p.PictureId),
+                //new PropertyByName<ExportProductAttribute>("PictureId", p => p.PictureId),
                 //
                 //rel                
                 new PropertyByName<ExportProductAttribute>("SKUCode", p => p.SKUCode),
@@ -462,7 +462,7 @@ namespace Nop.Services.ExportImport
                     {
                         manager.CurrentObject = item;
                         manager.WriteToXlsx(worksheet, row++);
-                        var rowValueId = 1;
+                        //var rowValueId = 1;
                         var attributes = item.ProductAttributeMappings.SelectMany(pam => pam.ProductAttributeValues.Select(pav => new ExportProductAttribute
                         {
                             AttributeId = pam.ProductAttribute.Id,
@@ -474,20 +474,20 @@ namespace Nop.Services.ExportImport
                             
                             ZIndex = pav.ZIndex,
 
-                            AssociatedProductId = pav.AssociatedProductId,
+                            //AssociatedProductId = pav.AssociatedProductId,
                             AttributeDisplayOrder = pam.DisplayOrder,
                             Id = pav.Id,
                             Name = pav.Name,
                             AttributeValueTypeId = pav.AttributeValueTypeId,
-                            ColorSquaresRgb = pav.ColorSquaresRgb,
-                            ImageSquaresPictureId = pav.ImageSquaresPictureId,
+                            //ColorSquaresRgb = pav.ColorSquaresRgb,
+                            //ImageSquaresPictureId = pav.ImageSquaresPictureId,
                             PriceAdjustment = pav.PriceAdjustment,
-                            WeightAdjustment = pav.WeightAdjustment,
-                            Cost = pav.Cost,
+                            //WeightAdjustment = pav.WeightAdjustment,
+                            //Cost = pav.Cost,
                             Quantity = pav.Quantity,
                             IsPreSelected = pav.IsPreSelected,
                             DisplayOrder = pav.DisplayOrder,
-                            PictureId = pav.PictureId,
+                            //PictureId = pav.PictureId,
                             //IsStoneProductAttributeValue = pav.IsStoneProductAttributeValue,
                             SKUCode = pav.SKUCode,
                             StoneNameId = pav.StoneNameId, 

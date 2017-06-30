@@ -10,7 +10,7 @@ namespace Nop.Plugin.Widgets.Calendar.Models.Admin
     {
         public DateTime From { get; set; }
         public DateTime To { get; set; }
-        public string SuHours { get; set; }
+        public string SuHours { get; set; }//"10:00,15:30,09:00"
         public string MoHours { get; set; }
         public string TuHours { get; set; }
         public string WeHours { get; set; }

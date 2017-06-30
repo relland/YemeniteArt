@@ -804,15 +804,20 @@ namespace Nop.Services.ExportImport
         //rel
         private void AddConditions(List<Conditions> conditionsList)
         {
+            //test git commit!
+            var a = 0;
             foreach (var condition in conditionsList.Where(x => x.HasCondition))
             {
                 var currentProductAttributeMapping = _productAttributeService.GetProductAttributeMappingById(condition.ProductAttributeMappingId);
                 var productAttributeMappingConditionId = conditionsList.FirstOrDefault(x => x.RowValueId == condition.RowValueIdForCondition)?.ProductAttributeMappingId;
                 var valueId = conditionsList.FirstOrDefault(x => x.RowValueId == condition.RowValueIdForCondition)?.AttributeValueId;
+                var valueIsSelected = conditionsList.FirstOrDefault(x => x.RowValueId == condition.RowValueIdForCondition)?.RowValueIsSelected;
                 if (productAttributeMappingConditionId.HasValue && productAttributeMappingConditionId > 0)
                 {
                     var productAttributeMappingCondition = _productAttributeService.GetProductAttributeMappingById(productAttributeMappingConditionId.Value);
-                    var value = condition.RowValueIsSelected ? valueId.HasValue ? valueId.ToString() : "" : "";
+                    var value = valueIsSelected.HasValue && valueIsSelected.Value && valueId.HasValue 
+                        ? valueId.ToString() 
+                        : "";
                     string attributesXml = _productAttributeParser.AddProductAttribute("", productAttributeMappingCondition, value);
                     currentProductAttributeMapping.ConditionAttributeXml = attributesXml;
                     _productAttributeService.UpdateProductAttributeMapping(currentProductAttributeMapping);
@@ -887,20 +892,20 @@ namespace Nop.Services.ExportImport
                     {
                         DropDownElements = AttributeValueType.Simple.ToSelectList(useLocalization: false)
                     },
-                    new PropertyByName<ExportProductAttribute>("AssociatedProductId"),
+                    //new PropertyByName<ExportProductAttribute>("AssociatedProductId"),
                     new PropertyByName<ExportProductAttribute>("Quantity"),
                     //
-                    new PropertyByName<ExportProductAttribute>("ColorSquaresRgb"),
-                    new PropertyByName<ExportProductAttribute>("ImageSquaresPictureId"),
+                    //new PropertyByName<ExportProductAttribute>("ColorSquaresRgb"),
+                    //new PropertyByName<ExportProductAttribute>("ImageSquaresPictureId"),
                     new PropertyByName<ExportProductAttribute>("PriceAdjustment"),
-                    new PropertyByName<ExportProductAttribute>("WeightAdjustment"),
-                    new PropertyByName<ExportProductAttribute>("Cost"),
+                    //new PropertyByName<ExportProductAttribute>("WeightAdjustment"),
+                    //new PropertyByName<ExportProductAttribute>("Cost"),
                     new PropertyByName<ExportProductAttribute>("ZIndex"),
                     //new PropertyByName<ExportProductAttribute>("IsStoneProductAttributeValue"),
                     //rel
                     new PropertyByName<ExportProductAttribute>("IsPreSelected"),
                     new PropertyByName<ExportProductAttribute>("DisplayOrder"),
-                    new PropertyByName<ExportProductAttribute>("PictureId"),
+                    //new PropertyByName<ExportProductAttribute>("PictureId"),
                     //
                     //rel                
                     new PropertyByName<ExportProductAttribute>("SKUCode"),
@@ -1087,18 +1092,18 @@ namespace Nop.Services.ExportImport
                             //end rel
 
                             var productAttributeValueId = managerProductAttribute.GetProperty("ProductAttributeValueId").IntValue;
-                            var associatedProductId = managerProductAttribute.GetProperty("AssociatedProductId").IntValue;
+                            //var associatedProductId = managerProductAttribute.GetProperty("AssociatedProductId").IntValue;
                             var valueName = managerProductAttribute.GetProperty("ValueName").StringValue;
                             var attributeValueTypeId = managerProductAttribute.GetProperty("AttributeValueType").IntValue;
-                            var colorSquaresRgb = managerProductAttribute.GetProperty("ColorSquaresRgb").StringValue;
-                            var imageSquaresPictureId = managerProductAttribute.GetProperty("ImageSquaresPictureId").IntValue;
+                            //var colorSquaresRgb = managerProductAttribute.GetProperty("ColorSquaresRgb").StringValue;
+                            //var imageSquaresPictureId = managerProductAttribute.GetProperty("ImageSquaresPictureId").IntValue;
                             var priceAdjustment = managerProductAttribute.GetProperty("PriceAdjustment").DecimalValue;
-                            var weightAdjustment = managerProductAttribute.GetProperty("WeightAdjustment").DecimalValue;
-                            var cost = managerProductAttribute.GetProperty("Cost").DecimalValue;
+                            //var weightAdjustment = managerProductAttribute.GetProperty("WeightAdjustment").DecimalValue;
+                            //var cost = managerProductAttribute.GetProperty("Cost").DecimalValue;
                             var quantity = managerProductAttribute.GetProperty("Quantity").IntValue;
                             var isPreSelected = managerProductAttribute.GetProperty("IsPreSelected").BooleanValue;
                             var displayOrder = managerProductAttribute.GetProperty("DisplayOrder").IntValue;
-                            var pictureId = managerProductAttribute.GetProperty("PictureId").IntValue;
+                            //var pictureId = managerProductAttribute.GetProperty("PictureId").IntValue;
                             var textPrompt = managerProductAttribute.GetProperty("AttributeTextPrompt").StringValue;
                             var isRequired = managerProductAttribute.GetProperty("AttributeIsRequired").BooleanValue;
                             var isStoneAttribute = managerProductAttribute.GetProperty("IsStoneAttribute").BooleanValue;//rel
@@ -1143,16 +1148,23 @@ namespace Nop.Services.ExportImport
 
                             var pav = _productAttributeService.GetProductAttributeValueById(productAttributeValueId);
                             //if productAttributeValue is associated to product
-                            if ((int)AttributeValueType.AssociatedToProduct == productAttributeValueId)
+                            if ((int)AttributeValueType.AssociatedToProduct == attributeValueTypeId && !string.IsNullOrWhiteSpace(skuCode))
                             {
                                 //first check by sku
-                                pav = _productAttributeService.GetProductAttributeValueByProductAttributeMappingIdAndAttributeValueSKUCode(productAttributeMapping.Id, skuCode);
+                                var tempPav = _productAttributeService.GetProductAttributeValueByProductAttributeMappingIdAndAttributeValueSKUCode(productAttributeMapping.Id, skuCode);
                                 //rel
                                 //if pav is null try checking by id
-                                if (pav == null)
+                                if (tempPav != null)
                                 {
-                                    pav = _productAttributeService.GetProductAttributeValueById(productAttributeValueId);
+                                    pav = tempPav;
                                 }
+                            }
+                            else if ((pav == null && productAttributeMapping.ProductAttributeValues.Count() > 0 && !string.IsNullOrWhiteSpace(valueName))
+                                || pav.ProductAttributeMappingId != productAttributeMapping.Id)//search by ValueName || SKUCode || StoneNameId ???
+                            {
+                                var tempPav = productAttributeMapping.ProductAttributeValues.FirstOrDefault(x => x.Name == valueName);
+                                if (tempPav != null)
+                                    pav = tempPav;
                             }
                             //end rel
 
@@ -1174,17 +1186,17 @@ namespace Nop.Services.ExportImport
                                 {
                                     ProductAttributeMappingId = productAttributeMapping.Id,
                                     AttributeValueType = (AttributeValueType)attributeValueTypeId,
-                                    AssociatedProductId = associatedProductId,
+                                    //AssociatedProductId = associatedProductId,
                                     Name = valueName,
                                     PriceAdjustment = priceAdjustment,
-                                    WeightAdjustment = weightAdjustment,
-                                    Cost = cost,
+                                    //WeightAdjustment = weightAdjustment,
+                                    //Cost = cost,
                                     IsPreSelected = isPreSelected,
                                     DisplayOrder = displayOrder,
-                                    ColorSquaresRgb = colorSquaresRgb,
-                                    ImageSquaresPictureId = imageSquaresPictureId,
+                                    //ColorSquaresRgb = colorSquaresRgb,
+                                    //ImageSquaresPictureId = imageSquaresPictureId,
                                     Quantity = quantity,
-                                    PictureId = pictureId,
+                                    //PictureId = pictureId,
                                     //rel
                                     SKUCode = skuCode,
                                     //IsStoneProductAttributeValue = isStoneProductAttributeValue,
@@ -1212,21 +1224,21 @@ namespace Nop.Services.ExportImport
                             else
                             {
                                 pav.AttributeValueTypeId = attributeValueTypeId;
-                                pav.AssociatedProductId = associatedProductId;
+                                //pav.AssociatedProductId = associatedProductId;
                                 pav.Name = valueName;
-                                pav.ColorSquaresRgb = colorSquaresRgb;
+                                //pav.ColorSquaresRgb = colorSquaresRgb;
                                 //rel
-                                if (imageSquaresPictureId > 0)
-                                    pav.ImageSquaresPictureId = imageSquaresPictureId;
+                                //if (imageSquaresPictureId > 0)
+                                //    pav.ImageSquaresPictureId = imageSquaresPictureId;
                                 pav.PriceAdjustment = priceAdjustment;
-                                pav.WeightAdjustment = weightAdjustment;
-                                pav.Cost = cost;
+                                //pav.WeightAdjustment = weightAdjustment;
+                                //pav.Cost = cost;
                                 pav.Quantity = quantity;
                                 pav.IsPreSelected = isPreSelected;
                                 pav.DisplayOrder = displayOrder;
                                 //rel
-                                if (pictureId > 0)
-                                    pav.PictureId = pictureId;
+                                //if (pictureId > 0)
+                                //    pav.PictureId = pictureId;
                                 //rel
                                 pav.SKUCode = skuCode;
                                 //pav.IsStoneProductAttributeValue = isStoneProductAttributeValue;
@@ -1735,20 +1747,20 @@ namespace Nop.Services.ExportImport
                     {
                         DropDownElements = AttributeValueType.Simple.ToSelectList(useLocalization: false)
                     },
-                    new PropertyByName<ExportProductAttribute>("AssociatedProductId"),
+                    //new PropertyByName<ExportProductAttribute>("AssociatedProductId"),
                     new PropertyByName<ExportProductAttribute>("Quantity"),
                     //
-                    new PropertyByName<ExportProductAttribute>("ColorSquaresRgb"),
-                    new PropertyByName<ExportProductAttribute>("ImageSquaresPictureId"),
+                    //new PropertyByName<ExportProductAttribute>("ColorSquaresRgb"),
+                    //new PropertyByName<ExportProductAttribute>("ImageSquaresPictureId"),
                     new PropertyByName<ExportProductAttribute>("PriceAdjustment"),
-                    new PropertyByName<ExportProductAttribute>("WeightAdjustment"),
-                    new PropertyByName<ExportProductAttribute>("Cost"),
+                    //new PropertyByName<ExportProductAttribute>("WeightAdjustment"),
+                    //new PropertyByName<ExportProductAttribute>("Cost"),
                     new PropertyByName<ExportProductAttribute>("ZIndex"),
                     //new PropertyByName<ExportProductAttribute>("IsStoneProductAttributeValue"),
                     //rel
                     new PropertyByName<ExportProductAttribute>("IsPreSelected"),
                     new PropertyByName<ExportProductAttribute>("DisplayOrder"),
-                    new PropertyByName<ExportProductAttribute>("PictureId"),
+                    //new PropertyByName<ExportProductAttribute>("PictureId"),
                     //
                     //rel                
                     new PropertyByName<ExportProductAttribute>("SKUCode"),
@@ -1950,18 +1962,18 @@ namespace Nop.Services.ExportImport
                             //end rel
 
                             var productAttributeValueId = managerProductAttribute.GetProperty("ProductAttributeValueId").IntValue;
-                            var associatedProductId = managerProductAttribute.GetProperty("AssociatedProductId").IntValue;
+                            //var associatedProductId = managerProductAttribute.GetProperty("AssociatedProductId").IntValue;
                             var valueName = managerProductAttribute.GetProperty("ValueName").StringValue;
                             var attributeValueTypeId = managerProductAttribute.GetProperty("AttributeValueType").IntValue;
-                            var colorSquaresRgb = managerProductAttribute.GetProperty("ColorSquaresRgb").StringValue;
-                            var imageSquaresPictureId = managerProductAttribute.GetProperty("ImageSquaresPictureId").IntValue;
+                            //var colorSquaresRgb = managerProductAttribute.GetProperty("ColorSquaresRgb").StringValue;
+                            //var imageSquaresPictureId = managerProductAttribute.GetProperty("ImageSquaresPictureId").IntValue;
                             var priceAdjustment = managerProductAttribute.GetProperty("PriceAdjustment").DecimalValue;
-                            var weightAdjustment = managerProductAttribute.GetProperty("WeightAdjustment").DecimalValue;
-                            var cost = managerProductAttribute.GetProperty("Cost").DecimalValue;
+                            //var weightAdjustment = managerProductAttribute.GetProperty("WeightAdjustment").DecimalValue;
+                            //var cost = managerProductAttribute.GetProperty("Cost").DecimalValue;
                             var quantity = managerProductAttribute.GetProperty("Quantity").IntValue;
                             var isPreSelected = managerProductAttribute.GetProperty("IsPreSelected").BooleanValue;
                             var displayOrder = managerProductAttribute.GetProperty("DisplayOrder").IntValue;
-                            var pictureId = managerProductAttribute.GetProperty("PictureId").IntValue;
+                            //var pictureId = managerProductAttribute.GetProperty("PictureId").IntValue;
                             var textPrompt = managerProductAttribute.GetProperty("AttributeTextPrompt").StringValue;
                             var isRequired = managerProductAttribute.GetProperty("AttributeIsRequired").BooleanValue;
                             var isStoneAttribute = managerProductAttribute.GetProperty("IsStoneAttribute").BooleanValue;//rel
@@ -2010,16 +2022,22 @@ namespace Nop.Services.ExportImport
 
                             var pav = _productAttributeService.GetProductAttributeValueById(productAttributeValueId);
                             //if productAttributeValue is associated to product
-                            if ((int)AttributeValueType.AssociatedToProduct == productAttributeValueId)
+                            if ((int)AttributeValueType.AssociatedToProduct == attributeValueTypeId && !string.IsNullOrWhiteSpace(skuCode))
                             {
                                 //first check by sku
-                                pav = _productAttributeService.GetProductAttributeValueByProductAttributeMappingIdAndAttributeValueSKUCode(productAttributeMapping.Id, skuCode);
+                                var tempPav = _productAttributeService.GetProductAttributeValueByProductAttributeMappingIdAndAttributeValueSKUCode(productAttributeMapping.Id, skuCode);
                                 //rel
                                 //if pav is null try checking by id
-                                if (pav == null)
+                                if (tempPav != null)
                                 {
-                                    pav = _productAttributeService.GetProductAttributeValueById(productAttributeValueId);
+                                    pav = tempPav;
                                 }
+                            }
+                            else if (pav == null && productAttributeMapping.ProductAttributeValues.Count() > 0 && !string.IsNullOrWhiteSpace(valueName))//search by ValueName || SKUCode || StoneNameId ???
+                            {
+                                var tempPav = productAttributeMapping.ProductAttributeValues.FirstOrDefault(x => x.Name == valueName);
+                                if (tempPav != null)
+                                    pav = tempPav;
                             }
                             //end rel
                             var attributeControlType = (AttributeControlType)attributeControlTypeId;
@@ -2042,17 +2060,17 @@ namespace Nop.Services.ExportImport
                                 {
                                     ProductAttributeMappingId = productAttributeMapping.Id,
                                     AttributeValueType = (AttributeValueType)attributeValueTypeId,
-                                    AssociatedProductId = associatedProductId,
+                                    //AssociatedProductId = associatedProductId,
                                     Name = valueName,
                                     PriceAdjustment = priceAdjustment,
-                                    WeightAdjustment = weightAdjustment,
-                                    Cost = cost,
+                                    //WeightAdjustment = weightAdjustment,
+                                    //Cost = cost,
                                     IsPreSelected = isPreSelected,
                                     DisplayOrder = displayOrder,
-                                    ColorSquaresRgb = colorSquaresRgb,
-                                    ImageSquaresPictureId = imageSquaresPictureId,
+                                    //ColorSquaresRgb = colorSquaresRgb,
+                                    //ImageSquaresPictureId = imageSquaresPictureId,
                                     Quantity = quantity,
-                                    PictureId = pictureId,
+                                    //PictureId = pictureId,
                                     //rel
                                     SKUCode = skuCode,
                                     //IsStoneProductAttributeValue = isStoneProductAttributeValue,
@@ -2083,21 +2101,21 @@ namespace Nop.Services.ExportImport
                                 //K
                                 errorMessage += "K - UPDATE PAVALUE. ";
                                 pav.AttributeValueTypeId = attributeValueTypeId;
-                                pav.AssociatedProductId = associatedProductId;
+                                //pav.AssociatedProductId = associatedProductId;
                                 pav.Name = valueName;
-                                pav.ColorSquaresRgb = colorSquaresRgb;
+                                //pav.ColorSquaresRgb = colorSquaresRgb;
                                 //rel
-                                if (imageSquaresPictureId > 0)
-                                    pav.ImageSquaresPictureId = imageSquaresPictureId;
+                                //if (imageSquaresPictureId > 0)
+                                //    pav.ImageSquaresPictureId = imageSquaresPictureId;
                                 pav.PriceAdjustment = priceAdjustment;
-                                pav.WeightAdjustment = weightAdjustment;
-                                pav.Cost = cost;
+                                //pav.WeightAdjustment = weightAdjustment;
+                                //pav.Cost = cost;
                                 pav.Quantity = quantity;
                                 pav.IsPreSelected = isPreSelected;
                                 pav.DisplayOrder = displayOrder;
                                 //rel
-                                if (pictureId > 0)
-                                    pav.PictureId = pictureId;
+                                //if (pictureId > 0)
+                                //    pav.PictureId = pictureId;
                                 //rel
                                 pav.SKUCode = skuCode;
                                 //pav.IsStoneProductAttributeValue = isStoneProductAttributeValue;
