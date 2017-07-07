@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nop.Web.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,19 +11,42 @@ namespace Nop.Plugin.Widgets.Calendar.Models.Admin
     {
         public int ActiveStoreScopeConfiguration { get; set; }
 
+        [NopResourceDisplayName("ya.Calendar.EnableWidget")]
         public bool EnableWidget { get; set; }
+        [NopResourceDisplayName("ya.Calendar.CalanderAccessRoleSystemName")]
         public string CalanderAccessRoleSystemName { get; set; }
 
+        [NopResourceDisplayName("ya.Calendar.CanOverlapOtherSessions")]
         public bool CanOverlapOtherSessions { get; set; } //if "true" => don't check existing sessions, just add. if "false" => create only sessions that don't overlap
+
+        [NopResourceDisplayName("ya.Calendar.PermittedOverlappingThreshold")]
         public int PermittedOverlappingThreshold { get; set; } // default - one minute...
+
+        [NopResourceDisplayName("ya.Calendar.DisabledDays")]
         public string DisabledDays { get; set; } //"1,6,7"
+
+        [NopResourceDisplayName("ya.Calendar.DisabledDates")]
         public string DisabledDates { get; set; } //"1/1/2015, 12/22/2019"
+
+        [NopResourceDisplayName("ya.Calendar.SessionsDayAndTimeRange")]
         public string SessionsDayAndTimeRange { get; set; } //"1=10:00-14:30, 1=15:30-20:00, 2=09:00-20:30"
+
+        [NopResourceDisplayName("ya.Calendar.SessionLengthByMinutes")]
         public int SessionLengthByMinutes { get; set; }
+
+        [NopResourceDisplayName("ya.Calendar.SessionAvailablilityCustomerCount")]
         public int SessionAvailablilityCustomerCount { get; set; }
+
+        [NopResourceDisplayName("ya.Calendar.LastSessionCreationDate")]
         public DateTime? LastSessionCreationDate { get; set; }
+
+        [NopResourceDisplayName("ya.Calendar.From")]
         public DateTime? From { get; set; }
+
+        [NopResourceDisplayName("ya.Calendar.To")]
         public DateTime? To { get; set; }
+
+        [NopResourceDisplayName("ya.Calendar.LastSessionDate")]
         public DateTime? LastSessionDate { get; set; }
 
 

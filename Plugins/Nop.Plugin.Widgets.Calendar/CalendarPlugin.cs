@@ -80,7 +80,7 @@ namespace Nop.Plugin.Widgets.Calendar
             {
                 SystemName = "Calendar",
                 Title = this._localizationService.GetResource("admin.Calendar.AdminMenuText"),
-                ControllerName = "Calendar",
+                ControllerName = "CalendarAdmin",
                 ActionName = "List",
                 Visible = true,
                 RouteValues = new RouteValueDictionary() { { "area", null } },
@@ -151,58 +151,7 @@ namespace Nop.Plugin.Widgets.Calendar
                 SessionAvailablilityCustomerCount = 1
             };
             _settingService.SaveSetting(settings);
-
-
-//            "admin.Calendar.AdminMenuText"
-//"admin.calendar.CreatedOn"
-//"admin.calendar.UpdatedOn"
-//StartsAt
-//EndsAt
-//OpenEventStartsAt
-//OpenEventEndsAt
-//Active
-//Deleted
-//CustomerId
-//CustomerComment
-//AdminComment
-//ContactEmail
-//ContactPhoneNumbet
-//Language
-//EventsStringA
-//EventsStringB
-//EventsStringC
-//EventsStringD
-//EventsIntA
-//EventsIntB
-//EventsIntC
-//EventsIntD
-//CustomersList
-//OpenEventId
-//Events
-//EventsCount
-//CreatedOn
-//UpdatedOn
-//StartsAt
-//EndsAt
-//Deleted
-//Active
-//StringA
-//StringB
-//StringC
-//StringD
-//IntA
-//IntB
-//IntC
-//IntD
-//StartsAtHour
-//StartsAtMinutes
-//NumberOfSessions
-//SessionLength
-//BookedSessionsIndex
-//AllowedFromHour
-//AllowedToHour
-
-
+            
             this.AddOrUpdatePluginLocaleResource("admin.Wholesaler.configuare", "Configuare Wholesaler Widget");
             this.AddOrUpdatePluginLocaleResource("admin.Wholesaler.save", "Save Wholesaler Widget");
             this.AddOrUpdatePluginLocaleResource("admin.Wholesaler.FirstSaveChangesAndThenReCalculate", "First Save Changes And Then Re-Calculate");

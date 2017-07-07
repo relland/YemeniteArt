@@ -20,9 +20,9 @@ namespace Nop.Plugin.Widgets.Calendar
                 {
                     //"10:00,15:30,09:00"
                     list.AddRange(dayHours.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(x => { return new Session(GetDate(from, x), sessionAvailablilityCustomerCount, sessionLengthMinutes) { }; }));
+                        .Select(x => new Session(GetDate(from, x), sessionAvailablilityCustomerCount, sessionLengthMinutes) { }));
                 }
-                from.AddDays(1);
+                from = from.AddDays(1);
             }
             return list;
         }

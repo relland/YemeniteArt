@@ -27,6 +27,8 @@ using Nop.Services.Stores;
 using Nop.Services.Tax;
 using Nop.Services.Vendors;
 using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Kendoui;
+using Nop.Web.Framework.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -192,7 +194,7 @@ namespace Nop.Plugin.Widgets.Calendar.Controllers
                 model.To_OverrideForStore = _settingService.SettingExists(calendarSettings, x => x.To, storeScope);
                 model.LastSessionDate_OverrideForStore = _settingService.SettingExists(calendarSettings, x => x.LastSessionDate, storeScope);
             }
-            return View(model);
+            return View("~/Plugins/Widjets.Calendar/Views/Admin/Configure.cshtml", model);
         }
 
         [HttpPost]
@@ -224,7 +226,7 @@ namespace Nop.Plugin.Widgets.Calendar.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddSessions(SessionCreationModal model)
+        public ActionResult CreateNewSession(SessionCreationModal model)
         {
             var storeScope = this.GetActiveStoreScopeConfiguration(_storeService, _workContext);
             var calendarSettings = _settingService.LoadSetting<CalendarSettings>(storeScope);
@@ -244,7 +246,98 @@ namespace Nop.Plugin.Widgets.Calendar.Controllers
             SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
             return Configure();
         }
+        
+        public ActionResult List()
+        {
+            var model = new BulkEditSessionListModel()
+            {
+                SearchFrom = DateTime.Now,
+                SearchTo = DateTime.Now.AddMonths(1)
+            };
+            return View("~/Plugins/Widjets.Calendar/Views/Admin/List.cshtml", model);
+        }
 
+        [HttpPost]
+        public ActionResult BulkEditSessionSelect(DataSourceRequest command, BulkEditSessionListModel model)
+        {
+            var sessions = _calanderService.GetSessions(model.SearchFrom, model.SearchTo);
+            var gridModel = new DataSourceResult();
+            gridModel.Data = sessions.Select(x => new BulkEditSessionModel
+                {
+                    Id = x.Id,
+                    CreatedOnUtc = x.CreatedOnUtc.ToShortDateString(),
+                    UpdatedOnUtc = x.UpdatedOnUtc.ToShortDateString(),
+                    StartsAtLocalTime = x.StartsAtLocalTime.ToShortDateString(),
+                    SessionLengthByMinutes = x.SessionLengthByMinutes,
+                    SessionAvailablilityCustomerCount = x.SessionAvailablilityCustomerCount,
+                    Active = x.Active,
+                    Taken = x.Taken
+                }
+            );
+            gridModel.Total = sessions.Count;
+
+            return Json(gridModel);
+        }
+
+        [HttpPost]
+        public ActionResult BulkEditUpdate(IEnumerable<BulkEditSessionModel> sessions)
+        {
+            if (sessions != null)
+            {
+                foreach (var sModel in sessions)
+                {
+                    //update
+                    var session = _calanderService.GetSessionById(sModel.Id);
+                    if (session != null)
+                    {
+                        session.SessionAvailablilityCustomerCount = sModel.SessionAvailablilityCustomerCount;
+                        session.Active = sModel.Active;
+                        session.SessionLengthByMinutes = sModel.SessionLengthByMinutes;
+                        session.UpdatedOnUtc = DateTime.UtcNow;
+                        session.TakenAdminOverride = sModel.TakenAdminOverride;
+                        _calanderService.UpdateSession(session);
+                    }
+                }
+            }
+
+            return new NullJsonResult();
+        }
+
+        [HttpPost]
+        public ActionResult BulkEditDelete(IEnumerable<BulkEditSessionModel> sessions)
+        {
+            if (sessions != null)
+            {
+                foreach (var sModel in sessions)
+                {
+                    //delete
+                    var session = _calanderService.GetSessionById(sModel.Id);
+                    if (session != null)
+                    {
+                        _calanderService.DeleteSession(session);
+                    }
+                }
+            }
+            return new NullJsonResult();
+        }
+
+        public ActionResult CreateNewSession()
+        {
+            var model = new SessionCreationModal()
+            {
+                SessionAvailablilityCustomerCount = 1,
+                SuHours = "",
+                MoHours = "",
+                TuHours = "",
+                WeHours = "",
+                ThHours = "",
+                FrHours = "",
+                SaHours = "",
+                From = DateTime.Now,
+                To = DateTime.Now.AddMonths(1)
+            };
+            return View("~/Plugins/Widjets.Calendar/Views/Admin/List.cshtml", model);
+        }
         //[NonAction]
         //private List<EventModel> PrepareEventsModel(ICollection<Session> events)
         //{

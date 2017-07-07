@@ -1,363 +1,273 @@
-﻿@model NewOpenEventsListModel
-@using Nop.Admin.Models.Events;
-@using System.Globalization;
+﻿@model BulkEditSessionListModel
+@using Nop.Plugin.Widgets.Calendar.Models.Admin
+
 @{
-    //var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
+    var gridPageSizes = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
 
     //page title
-    ViewBag.Title = T("rel.openEventsList").Text;
-
-    //var emptyDaysStart = "";
-    //var emptyDaysEnd = "";
-    //int j = 0;
-    //int day = 1;
-    //for (int i = 0; i < Model.DayOfWeek; i++)
-    //{
-    //    emptyDaysStart += "<td class=\"empty\"></td>";
-    //    j++;
-    //}
-    //j = 7 - ((j + Model.NumOfDays) % 7);
-    //for (int x = 0; x < j; x++)
-    //{
-    //    emptyDaysEnd += "<td class=\"empty\"></td>";
-    //}
-    var emptyDaysStart = "";
-    var emptyDaysEnd = "";
-    int j = 0;
-    int day = 1;
-    for (int i = 0; i < Model.DayOfWeek; i++)
-    {
-        emptyDaysStart += "<td class=\"empty\"></td>";
-        j++;
-    }
-    j = 7 - ((j + Model.NumOfDays) % 7);
-    for (int x = 0; x < j; x++)
-    {
-        emptyDaysEnd += "<td class=\"empty\"></td>";
-    }
-    int nextMonth = Model.Month == 12 ? 1 : Model.Month + 1;
-    int nextYear = Model.Month == 12 ? Model.Year + 1 : Model.Year;
-    int prevMonth = Model.Month == 1 ? 12 : Model.Month - 1;
-    int prevYear = Model.Month == 1 ? Model.Year - 1 : Model.Year;
+    ViewBag.Title = T("ya.Calendar.SessionsList").Text;
+    //active menu item (system name)
+    //Html.SetActiveMenuItemSystemName("Bulk edit products");
 }
+
 @using (Html.BeginForm())
 {
-    <div class="section-header">
-        <div class="title">
-            <img src="@Url.Content("~/Administration/Content/images/ico-customers.png")" alt="" />
-            @T("rel.openEventsList")
+    @Html.AntiForgeryToken()
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("ya.Calendar.SessionsList")
+        </h1>
+        <div class="pull-right">
+            &nbsp;
         </div>
-        @*<div class="options">
-            <a href="@Url.Action("Create")" class="t-button">@T("Admin.Common.AddNew")</a>
-        </div>*@
-    </div>@*
-    <table width="100%">
-        <tr>
-            <td class="adminTitle">
-                @Html.NopLabelFor(model => model.SearchDateMonth):
-            </td>
-            <td class="adminData">
-                @{
-    var monthValues = new List<SelectListItem>();
-    monthValues.Add(new SelectListItem() { Text = T("Admin.Customers.Customers.List.SearchDateOfBirth.Month").Text, Value = "0" });
-    for (int i = 1; i <= 12; i++)
-    {
-        monthValues.Add(new SelectListItem() { Text = i.ToString(CultureInfo.InvariantCulture), Value = i.ToString(CultureInfo.InvariantCulture) });
-    }
-    var dayValues = new List<SelectListItem>();
-    dayValues.Add(new SelectListItem() { Text = T("Admin.Customers.Customers.List.SearchDateOfBirth.Day").Text, Value = "0" });
-    for (int i = 1; i <= 31; i++)
-    {
-        dayValues.Add(new SelectListItem() { Text = i.ToString(CultureInfo.InvariantCulture), Value = i.ToString(CultureInfo.InvariantCulture) });
-    }
-    var yearValues = new List<SelectListItem>();
-    yearValues.Add(new SelectListItem() { Text = T("Admin.Customers.Customers.List.SearchDateOfBirth.Year").Text, Value = "0" });
-    for (int i = 1; i <= 12; i++)
-    {
-        dayValues.Add(new SelectListItem() { Text = i.ToString(CultureInfo.InvariantCulture), Value = i.ToString(CultureInfo.InvariantCulture) });
-    }
-                    }
-                    @Html.DropDownListFor(model => Model.SearchDateDay, dayValues)
-                    @Html.DropDownListFor(model => Model.SearchDateMonth, monthValues)                    
-                    @Html.DropDownListFor(model => Model.SearchDateYear, yearValues)
-            </td>
-        </tr>
-        <tr>
-            <td class="adminTitle">
-                @Html.NopLabelFor(model => model.SearchFromDateMonth):
-            </td>
-            <td class="adminData">
-                @Html.DropDownListFor(model => Model.SearchFromDateDay, dayValues)
-                @Html.DropDownListFor(model => Model.SearchFromDateMonth, monthValues)
-                @Html.DropDownListFor(model => Model.SearchFromDateYear, yearValues)
-            </td>
-        </tr>
-        <tr>
-            <td class="adminTitle">
-                @Html.NopLabelFor(model => model.SearchToDateMonth):
-            </td>
-            <td class="adminData">
-                @Html.DropDownListFor(model => Model.SearchToDateDay, dayValues)
-                @Html.DropDownListFor(model => Model.SearchToDateMonth, monthValues)
-                @Html.DropDownListFor(model => Model.SearchToDateYear, yearValues)
-            </td>
-        </tr>
-        <tr>
-            <td class="adminTitle">
-                @Html.NopLabelFor(model => model.SearchMonthNext):
-            </td>
-            <td class="adminData">
-                @{
-                    var monthNextValues = new List<SelectListItem>();
-                    monthNextValues.Add(new SelectListItem() { Text = T("Admin.Customers.Customers.List.SearchDateOfBirth.Month").Text, Value = "0" });
-                    for (int i = 1; i <= 12; i++)
-                    {
-                        monthNextValues.Add(new SelectListItem() { Text = i.ToString(CultureInfo.InvariantCulture), Value = i.ToString(CultureInfo.InvariantCulture) });
-                    }           
-                }
-                @Html.DropDownListFor(model => Model.SearchMonthNext, monthNextValues)                    
-            </td>
-        </tr>
-        <tr>
-            <td class="adminTitle">
-                @Html.NopLabelFor(model => model.SearchMonthPast):
-            </td>
-            <td class="adminData">
-                @{
-                    var monthPastValues = new List<SelectListItem>();
-                    monthPastValues.Add(new SelectListItem() { Text = T("Admin.Customers.Customers.List.SearchDateOfBirth.Month").Text, Value = "0" });
-                    for (int i = 1; i <= 12; i++)
-                    {
-                        monthPastValues.Add(new SelectListItem() { Text = i.ToString(CultureInfo.InvariantCulture), Value = i.ToString(CultureInfo.InvariantCulture) });
-                    }           
-                }
-                @Html.DropDownListFor(model => Model.SearchMonthPast, monthPastValues)                    
-            </td>
-        </tr>        
-        <tr>
-            <td colspan="2">
-                <input type="button" id="search-open-events" class="t-button" value="@T("Admin.Common.Search")" />
-            </td>
-        </tr>
-    </table>*@
-    @*<p>
-    </p>
-    <table class="calander">
-    <thead class="button-3">
-        <tr>
-            <th>@T("sunday")</th>
-            <th>@T("monday")</th>
-            <th>@T("tuesday")</th>
-            <th>@T("wednesday")</th>
-            <th>@T("thursday")</th>
-            <th>@T("friday")</th>
-            <th>@T("saturday")</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            @Html.Raw(emptyDaysStart)
-            
-            @foreach (var oem in Model.MonthDays)
-            {
-                <td class="@(oem.HasOpenEvents ? "events" : "no-events") @(oem.HasBookedOpenEvents ? " booked-open-events" : null)" data-id="">
-                    <a href="@Url.Action("Create", new { year = oem.Year, month = oem.Month, day = day })" class="a-day">@T("create") - @(day)</a> 
-                    @(oem.HasOpenEvents ? "<a href='" + Url.Action("EditOpenEvent", new { year = Model.Year, month = Model.Month, day = day }) + " class='a-day-edit'>" + T("create").ToString() + " - " + day.ToString() + "</a>" : null)*@
-                    @*@{var firstOE = oem.OpenEvents.FirstOrDefault();
-                      if (firstOE != null)
-                      { 
-                          var hour = 8;
-                          while (firstOE.StartsAtHour < hour)
-                          { 
-                            <span>@(hour < 10 ? "0" + hour + ":00" : hour + ":00")</span>
-                              hour++;
-                          }
-                      }
-                          }                    
-                    @foreach (var oe in oem.OpenEvents)
-                    {
-                        <span>Starts At @oe.StartsAt</span>
-                        for (var sess = 1; sess <= oe.NumberOfSessions; sess++)
-                        {
-                            <span>@(oe.MySessions.Contains(sess) ? "MySession" : "NotMySession")</span>
+    </div>
+
+    <div class="content">
+    <div class="form-horizontal">
+    <div class="panel-group">
+    <div class="panel panel-default panel-search">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.NopLabelFor(model => model.SearchFrom)
+                        </div>
+                        <div class="col-md-8">
+                            <input id="from-datepicker" value="@(Model.SearchFrom)" title="datepicker" style="width: 100%" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.NopLabelFor(model => model.SearchTo)
+                        </div>
+                        <div class="col-md-8">
+                            <input id="to-datepicker" value="@(Model.SearchTo)" title="datepicker" style="width: 100%" />
+                        </div>
+                    </div>
+                    @*<div class="form-group" @(Model.AvailableCategories.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                        <div class="col-md-4">
+                            @Html.NopLabelFor(model => model.SearchCategoryId)
+                        </div>
+                        <div class="col-md-8">
+                            @Html.NopDropDownList("SearchCategoryId", Model.AvailableCategories)
+                        </div>
+                    </div>
+                    <div class="form-group" @(Model.AvailableManufacturers.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                        <div class="col-md-4">
+                            @Html.NopLabelFor(model => model.SearchManufacturerId)
+                        </div>
+                        <div class="col-md-8">
+                            @Html.NopDropDownList("SearchManufacturerId", Model.AvailableManufacturers)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.NopLabelFor(model => model.SearchProductTypeId)
+                        </div>
+                        <div class="col-md-8">
+                            @Html.NopDropDownList("SearchProductTypeId", Model.AvailableProductTypes)
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        <div class="col-md-8 col-md-offset-4">
+                            <button type="button" id="search-products" class="btn btn-primary btn-search">
+                                <i class="fa fa-search"></i>
+                                @T("Admin.Common.Search")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div id="products-grid"></div>
+
+            <script>
+                $(document).ready(function() {
+                    $("#from-datepicker").kendoDatePicker();
+                    $("#to-datepicker").kendoDatePicker();
+
+                    $("#products-grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Html.Raw(Url.Action("BulkEditSessionSelect", "CalanderAdmin"))",
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: additionalData
+                                },
+                                update: {
+                                    url: "@Html.Raw(Url.Action("BulkEditSessionUpdate", "CalanderAdmin"))",
+                                    type: "POST",
+                                    dataType: "json"
+                                },
+                                destroy: {
+                                    url: "@Html.Raw(Url.Action("BulkEditSessionDelete", "CalanderAdmin"))",
+                                    type: "POST",
+                                    dataType: "json"
+                                },
+                                parameterMap: function(data, operation) {
+                                    if (operation != "read") {
+                                        //post the entities so the ASP.NET DefaultModelBinder will understand them:
+                                        //products[0].Name="name"
+                                        //products[0].Id = 1
+                                        //products[1].Name="name"
+                                        //products[1].Id = 1
+
+                                        var result = {};
+
+                                        for (var i = 0; i < data.models.length; i++) {
+                                            var entity = data.models[i];
+
+                                            for (var member in entity) {
+                                                result["products[" + i + "]." + member] = entity[member];
+                                            }
+                                        }
+
+                                        addAntiForgeryToken(result);
+                                        return result;
+                                    } else {
+                                        addAntiForgeryToken(data);
+                                        //return JSON.stringify(data);
+                                        return data;
+                                    }
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                total: "Total",
+                                errors: "Errors",
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        CreatedOnUtc: { editable: false, type: "string" },
+                                        UpdatedOnUtc: { editable: false, type: "string" },
+                                        StartsAtLocalTime: { editable: true, type: "string" },
+                                        SessionLengthByMinutes: { editable: true, type: "number" },
+                                        Active: { editable: true, type: "boolean" },
+                                        Taken: { editable: false, type: "boolean" },
+                                        TakenAdminOverride: { editable: true, type: "boolean" },
+                                        SessionAvailablilityCustomerCount: { editable: true, type: "number" },
+                                        Id: { editable: false, type: "number" }
+                                    }
+                                }
+                            },
+                            requestEnd: function (e) {
+                                if (e.type == "update") {
+                                    this.read();
+                                }
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            //bulk editing
+                            batch: true,
+                            pageSize: @(defaultGridPageSize),
+                            serverPaging: true,
+                            serverFiltering: true,
+                            serverSorting: true
+                        },
+                        pageable: {
+                            refresh: true,
+                            pageSizes: [@(gridPageSizes)]
+                        },
+                        toolbar: ["save", "cancel"],
+                        editable: {
+                            confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                            //bulk editing
+                            mode: "incell"
+                        },
+                        scrollable: false,
+                        columns: [ {
+                            field: "CreatedOnUtc",
+                                title: "@T("ya.Calendar.CreatedOnUtc")",
+                                width: 200
+                            },{
+                                field: "UpdatedOnUtc",
+                                title: "@T("ya.Calendar.UpdatedOnUtc")",
+                                width: 150
+                            }, {
+                                field: "StartsAtLocalTime",
+                                title: "@T("ya.Calendar.StartsAtLocalTime")",
+                                width: 150
+                            }, {
+                                field: "SessionLengthByMinutes",
+                                title: "@T("ya.Calendar.SessionLengthByMinutes")",
+                                //integer format
+                                format: "{0:0}",
+                                width: 150
+                            }, {
+                                field: "Active",
+                                title: "@T("ya.Calendar.Active")",
+                                width: 150
+                            }, {
+                                field: "Taken",
+                                title: "@T("ya.Calendar.Taken")",
+                                width: 150
+                            }, {
+                                field: "TakenAdminOverride",
+                                title: "@T("ya.Calendar.TakenAdminOverride")",
+                                width: 150
+                            },{
+                                field: "SessionAvailablilityCustomerCount",
+                                title: "@T("ya.Calendar.SessionAvailablilityCustomerCount")",
+                                //integer format
+                                format: "{0:0}",
+                                width: 200
+                            },  {
+                                field: "SeeSessionCustomers...",
+                                title: "@T("Admin.Common.View")",
+                                width: 100,
+                                template: '<a href="@Url.Content("~/Admin/Product/Edit/")#=Id#">@T("Admin.Common.View")</a>'
+                            }, {
+                                command: { name: "destroy", text: "@T("Admin.Common.Delete")" },
+                                title: "@T("Admin.Common.Delete")",
+                                width: 100
+                            }
+                        ]
+                    } );
+                });
+            </script>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#search-products').click(function () {
+                        var grid = $('#products-grid').data('kendoGrid');
+                        grid.dataSource.page(1); //new search. Set page size to 1
+                        //grid.dataSource.read(); we already loaded the grid above using "page" function
+                        return false;
+                    });
+
+                    $("#@Html.FieldIdFor(model => model.SearchProductName)").keydown(function (event) {
+                        if (event.keyCode == 13) {
+                            $("#search-products").click();
+                            return false;
                         }
-                    }*@
-                @*</td>  
-                @(day++)
-            }
+                    });
+                });
 
-            @Html.Raw(emptyDaysEnd)
-        </tr>
-    </tbody>
-</table>*@
-    
-    <div class="events-header">
-    <a href="@Url.Action("List", new { year = prevYear, month = prevMonth })"><</a>
-    <span class="month">@Model.MonthName</span>
-    <span class="year">@Model.Year</span>
-    <a href="@Url.Action("List", new { year = nextYear, month = nextMonth })">></a>
-</div>
-<table class="calander">
-    <thead class="button-3">
-        <tr>
-            <th>@T("sunday")</th>
-            <th>@T("monday")</th>
-            <th>@T("tuesday")</th>
-            <th>@T("wednesday")</th>
-            <th>@T("thursday")</th>
-            <th>@T("friday")</th>
-            <th>@T("saturday")</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr id="events">
-            @Html.Action("MonthEvents", new { year = Model.Year, month = Model.Month })
-            @*@Html.Raw(emptyDaysStart)
-
-            @foreach (var oem in Model.MonthDays)
-            {
-                <td class="no-events" data-id="@day">@(day)*@    @*@(oem.OpenEvents.Count > 0 ? "events" : "no-events") *@                
-                   
-               @* </td>  
-                @(day++)
-            }
-            @Html.Raw(emptyDaysEnd)*@
-        </tr>
-    </tbody>
-</table>
-<div class="indicators">
-    <div class="available"><span></span>@T("available")</div>
-    <div class="not-available"><span></span>@T("notavailable")</div>
-    <div class="your-event"><span></span>@T("yourevent")</div>
-</div>
-    
-<script type="text/javascript">
-    @*$(document).ready(function () {
-        //$('td.full').click(function () {
-        //    $(".open-event").css('display', 'none');
-        //    var id = $(this).attr('data-id');
-        //    $('#open-event-' + id).css('display', 'block');
-        //});
-        //$(".open-event").draggable();
-        $.get('@Html.Action("MonthEvents", new { year = Model.Year, month = Model.Month })', function (data) {
-            $("#events").html(data);
-        });
-    });*@
-    function goToMonth(month, year) {
-        if (month < 1) {
-            month = 12;
-            year = year - 1;
-        }
-        if (month > 12) {
-            month = 1;
-            year = year + 1;
-        }
-
-    }
-</script> 
-    
-    <style>
-        /*events*/
-.calander {
-        width: 740px;
-    }
-    .calander td {
-        width: 102px;
-        height: 80px;
-        display:inline-block;
-        float:left;
-        background-color:#ffffff;
-        border:1px solid #000000;
-        /* margin:5px; */
-    
-        border-right: none;
-}
-    .calander th {
-        width: 93px;
-        /* height: 30px; */
-        display:inline-block;
-        /* float:left; */
-        /* background-color:#fff333; */
-        border:1px solid #000000;
-        padding: 10px 5px;
-    
-        border-right: none;
-}
-    td.empty {
-        background-color: #D1D3D4;
-    }
-    td.full {
-        background-color:#0094ff;
-    }
-    .open-event {
-        /*display:none;
-        position:absolute;
-        top:100px;
-        right:100px;
-        width: 500px;
-        height:500px;
-        border:1px solid #000000;
-        background-color:#ffffff;
-        z-index:999999;*/
-        width:400px;
-    }
-        .open-event span {
-            clear:both;
-            float:left;
-        }
-    </style>
-    <script type="text/javascript">
-        
-        @*$(document).ready(function () {
-
-            //search button
-            $('#search-open-events').click(function () {
-                var grid = $('#open-event-grid').data('tGrid');
-                grid.currentPage = 1; //new search. Set page size to 1
-                grid.ajaxRequest();
-                return false;
-            });
-
-            
-
-            $('#mastercheckbox').click(function () {
-                $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
-            });
-
-        });
-
-
-        function onDataBinding(e) {
-            var searchModel = {
-                SearchDateMonth: $('#@Html.FieldIdFor(model => model.SearchDateMonth)').val(),
-                SearchDateDay: $('#@Html.FieldIdFor(model => model.SearchDateDay)').val(),
-                SearchFromDateMonth: $('#@Html.FieldIdFor(model => model.SearchFromDateMonth)').val(),
-                SearchFromDateDay: $('#@Html.FieldIdFor(model => model.SearchFromDateDay)').val(),
-                SearchToDateMonth: $('#@Html.FieldIdFor(model => model.SearchToDateMonth)').val(),
-                SearchToDateDay: $('#@Html.FieldIdFor(model => model.SearchToDateDay)').val(),
-                SearchMonthNext: $('#@Html.FieldIdFor(model => model.SearchMonthNext)').val(),
-                SearchMonthPast: $('#@Html.FieldIdFor(model => model.SearchMonthPast)').val()
-            };
-            e.data = searchModel;
-        }*@
-        @*function additionalData() {
-            var customerRoleIds = [];
-            $('[name=SearchCustomerRoleIds]:checked').each(function () {
-                customerRoleIds.push($(this).val());
-            });
-
-            return {
-                SearchCustomerRoleIds: customerRoleIds.join(","),
-                SearchEmail: $('#@Html.FieldIdFor(model => model.SearchEmail)').val(),
-                            SearchUsername: $('#@Html.FieldIdFor(model => model.SearchUsername)').val(),
-                            SearchFirstName: $('#@Html.FieldIdFor(model => model.SearchFirstName)').val(),
-                            SearchLastName: $('#@Html.FieldIdFor(model => model.SearchLastName)').val(),
-                            SearchDayOfBirth: $('#@Html.FieldIdFor(model => model.SearchDayOfBirth)').val(),
-                            SearchMonthOfBirth: $('#@Html.FieldIdFor(model => model.SearchMonthOfBirth)').val(),
-                            SearchCompany: $('#@Html.FieldIdFor(model => model.SearchCompany)').val(),
-                            SearchPhone: $('#@Html.FieldIdFor(model => model.SearchPhone)').val(),
-                            SearchZipPostalCode: $('#@Html.FieldIdFor(model => model.SearchZipPostalCode)').val()
-                        };
-                    }*@
-    </script>
+                function additionalData() {
+                    var data = {
+                        SearchProductName: $('#@Html.FieldIdFor(model => model.SearchProductName)').val(),
+                        SearchCategoryId: $('#SearchCategoryId').val(),
+                        SearchManufacturerId: $('#SearchManufacturerId').val(),
+                        SearchProductTypeId: $('#SearchProductTypeId').val()
+                    };
+                    addAntiForgeryToken(data);
+                    return data;
+                }
+            </script>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
 }

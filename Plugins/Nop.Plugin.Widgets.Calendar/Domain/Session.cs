@@ -11,12 +11,12 @@ namespace Nop.Plugin.Widgets.Calendar.Domain
 {
     public partial class Session : BaseEntity
     {
-        public Session(DateTime startDate, int sessionAvailablilityCustomerCount, int sessionLengthByMinutes)
+        public Session(DateTime startDateAndTime, int sessionAvailablilityCustomerCount, int sessionLengthByMinutes)
         {
-            IntDate = startDate.ToIntDate();
+            IntDate = startDateAndTime.ToIntDate();
             CreatedOnUtc = DateTime.UtcNow;
             UpdatedOnUtc = DateTime.UtcNow;
-            StartsAtUtc = startDate;
+            StartsAtLocalTime = startDateAndTime;
             Active = true;
             SessionAvailablilityCustomerCount = sessionAvailablilityCustomerCount;
             SessionLengthByMinutes = sessionLengthByMinutes;
@@ -26,13 +26,14 @@ namespace Nop.Plugin.Widgets.Calendar.Domain
         public DateTime CreatedOnUtc { get; set; }
         public DateTime UpdatedOnUtc { get; set; }
 
-        public DateTime StartsAtUtc { get; set; }
+        public DateTime StartsAtLocalTime { get; set; }
         //public DateTime EndsAtUtc { get; set; }
 
         public int SessionLengthByMinutes { get; set; }
         public bool Active { get; set; }
         public bool Deleted { get; set; }
         public bool Taken { get; set; }
+        public bool TakenAdminOverride { get; set; }
         public int SessionAvailablilityCustomerCount { get; set; }
 
         public string StringA { get; set; }

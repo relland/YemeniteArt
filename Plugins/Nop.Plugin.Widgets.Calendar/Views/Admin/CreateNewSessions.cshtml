@@ -1,0 +1,137 @@
+﻿@model SessionCreationModal
+@using Nop.Plugin.Widgets.Calendar.Models.Admin;
+@using System.Globalization;
+@{
+    //var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+
+    //page title
+    ViewBag.Title = T("ya.sessionsList").Text;
+    
+}
+
+@*@Html.Action("StoreScopeConfiguration", "Setting", new { area = "Admin" })*@
+
+@using (Html.BeginForm("CreateNewSession", "CalanderAdmin"))
+{
+    @Html.AntiForgeryToken()
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("ya.createSessions")
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.From)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.From)
+                        @Html.ValidationMessageFor(model => model.From)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.To)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.To)
+                        @Html.ValidationMessageFor(model => model.To)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.SessionLengthByMinutes)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.SessionLengthByMinutes)
+                        @Html.ValidationMessageFor(model => model.SessionLengthByMinutes)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.SessionAvailablilityCustomerCount)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.SessionAvailablilityCustomerCount)
+                        @Html.ValidationMessageFor(model => model.SessionAvailablilityCustomerCount)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.SuHours)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.SuHours)
+                        @Html.ValidationMessageFor(model => model.SuHours)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.MoHours)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.MoHours)
+                        @Html.ValidationMessageFor(model => model.MoHours)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.TuHours)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.TuHours)
+                        @Html.ValidationMessageFor(model => model.TuHours)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.WeHours)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.WeHours)
+                        @Html.ValidationMessageFor(model => model.WeHours)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.ThHours)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.ThHours)
+                        @Html.ValidationMessageFor(model => model.ThHours)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.FrHours)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.FrHours)
+                        @Html.ValidationMessageFor(model => model.FrHours)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.NopLabelFor(model => model.SaHours)
+                    </div>
+                    <div class="col-md-9">
+                        @Html.NopEditorFor(model => model.SaHours)
+                        @Html.ValidationMessageFor(model => model.SaHours)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    &nbsp;
+                </div>
+                <div class="col-md-9">
+                    <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -30,17 +30,30 @@ namespace Nop.Plugin.Widgets.Calendar.Services
 
         public virtual IList<Session> GetAllSessionsInCurrentDay(DateTime date = new DateTime())
         {
-            if (date == null)//change this
+            if (date == DateTime.MinValue)
                 date = DateTime.UtcNow;
+            var intDate = date.ToIntDate();
             var query = _sessionRepository.Table;
-            query = query.Where(x => x.Active && !x.Deleted && x.StartsAtUtc == date);
+            query = query.Where(x => x.Active && !x.Deleted && x.IntDate == intDate);
             return query.ToList();
         }
 
+        public IList<Session> GetSessions(DateTime from, DateTime to)
+        {
+            if (from == DateTime.MinValue)
+                from = DateTime.UtcNow;
+            if (to == DateTime.MinValue)
+                to = from.AddMonths(1);
+            var intFrom = from.ToIntDate();
+            var intTo = to.ToIntDate();
+            var query = _sessionRepository.Table;
+            query = query.Where(x => x.Active && !x.Deleted && x.IntDate >= intFrom && x.IntDate <= intTo);
+            return query.ToList();
+        }
         public virtual void InsertSession(Session session)
         {
             if (session == null)
-                throw new ArgumentNullException("session");
+                throw new ArgumentNullException(nameof(session));
 
             _sessionRepository.Insert(session);
 

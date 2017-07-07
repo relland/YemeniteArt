@@ -15,6 +15,7 @@ namespace Nop.Plugin.Widgets.Calendar.Services
 
         IList<Session> GetAllSessionsInCurrentDay(DateTime date = new DateTime());
 
+        IList<Session> GetSessions(DateTime from, DateTime to);
         void InsertSession(Session session);
         void InsertSessions(List<Session> sessions);
 
